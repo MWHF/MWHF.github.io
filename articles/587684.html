@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        h1, h2, h3 {
+            color: #ffffff;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #f39c12;
+            border-left: 5px solid #f39c12;
+            padding-left: 10px;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #f39c12;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: #333;
+            color: #f39c12;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ul ul {
+            list-style-type: circle;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .important {
+            background-color: #444;
+            padding: 10px;
+            border-left: 5px solid #e74c3c;
+            margin: 20px 0;
+        }
+        .important p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</h1>
+
+    <p>If you're running Cemu v2.1 on a Ryzen 5 3600 and looking for optimal settings to achieve smooth gameplay, this guide will help you configure your emulator for the best performance. We'll focus on balancing visuals and speed, ensuring that you get the best experience possible with minimal stuttering and lag.</p>
+
+    <h2>Graphics Settings</h2>
+    <p>The following graphics settings are recommended to achieve smooth performance, especially when running demanding Wii U titles:</p>
+    
+    <ul>
+        <li><strong>Graphics API:</strong> <code>Vulkan</code></li>
+        <li><strong>Graphics Device:</strong> Select your native graphics device. If you're unsure, this is typically the integrated or dedicated GPU on your system.</li>
+        <li><strong>VSync:</strong> <code>Triple Buffering</code></li>
+        <ul>
+            <li>Using <strong>Triple Buffering</strong> helps to smooth out gameplay and menus. Unlike Double Buffering, which may cause slow gameplay even if the menus run fine, Triple Buffering allows the GPU to work more efficiently by reducing the time spent waiting between frames. This results in a smoother overall experience without the drawbacks of screen tearing or excessive input lag.</li>
+        </ul>
+        <li><strong>Upscale Filter:</strong> <code>Bilinear</code></li>
+        <li><strong>Downscale Filter:</strong> <code>Bilinear</code></li>
+        <li><strong>Fullscreen Scaling:</strong> <code>Keep aspect ratio</code></li>
+    </ul>
+
+    <h2>CPU Settings</h2>
+    <p>Your CPU plays a critical role in emulation performance. For a Ryzen 5 3600, the following settings are recommended:</p>
+
+    <ul>
+        <li><strong>CPU Mode:</strong> <code>Dual-Core Recompiler</code></li>
+        <ul>
+            <li>This mode strikes a balance between performance and compatibility. It allows the emulator to utilize more of your CPU's cores, which can lead to better performance in many games.</li>
+        </ul>
+    </ul>
+
+    <h2>Shader Compilation</h2>
+    <p>Shader compilation is essential for smooth gameplay, as it prevents stuttering when new graphical effects are rendered. Configure your shader settings as follows:</p>
+
+    <ul>
+        <li><strong>Asynchronous Shader Compilation:</strong> <code>Enabled</code></li>
+        <ul>
+            <li>Enabling this option allows shaders to compile in the background, reducing stuttering during gameplay. It's crucial for maintaining smooth performance, especially in graphically intensive games.</li>
+        </ul>
+        <li><strong>Precompiled Shader Cache:</strong> <code>Enabled</code></li>
+        <ul>
+            <li>Using a precompiled shader cache helps minimize the initial stuttering that can occur when running a game for the first time.</li>
+        </ul>
+    </ul>
+
+    <h2>General Tips</h2>
+    <p>Here are a few additional tips to ensure smooth performance on your Ryzen 5 3600:</p>
+
+    <ul>
+        <li><strong>Keep Your Drivers Updated:</strong> Make sure your graphics drivers are up to date. New drivers can improve performance and compatibility with Vulkan.</li>
+        <li><strong>Close Background Applications:</strong> Free up system resources by closing unnecessary applications running in the background.</li>
+        <li><strong>Use a High-Performance Power Plan:</strong> Set your power plan to High Performance in Windows to prevent CPU and GPU throttling.</li>
+    </ul>
+
+    <div class="important">
+        <p><strong>Important Notes:</strong></p>
+        <ul>
+            <li><strong>Test Settings Per Game:</strong> While these settings should provide a solid baseline, some games may require individual tweaks. Always test and adjust settings based on the specific demands of the game you're playing.</li>
+            <li><strong>Graphic Mods:</strong> Some games may have graphic mods available that can further improve framerate or visual quality. Consider exploring these mods to enhance your gaming experience.</li>
+            <li><strong>Tested Games:</strong> The graphics settings provided in this guide were tested on <strong>New Super Mario Bros. U</strong> and <strong>New Super Luigi U</strong>. Performance may vary with other titles.</li>
+            <li><strong>Backup Your Configurations:</strong> Before making major changes, consider backing up your Cemu settings to revert if necessary.</li>
+        </ul>
+    </div>
+
+    <p>This guide should help you achieve a smooth gaming experience in Cemu v2.1 on your Ryzen 5 3600. If you encounter any issues or have further questions, don't hesitate to seek advice from the Cemu community or revisit your settings for further optimization.</p>
+    <p>This guide has been provided by <strong>Aarontendo</strong>. You can check out more from Aarontendo on <a href="https://www.youtube.com/@aarontendotv" target="_blank">YouTube</a>.</p>
+
+
+</body>
+</html>
