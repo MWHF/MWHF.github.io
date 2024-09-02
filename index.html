@@ -44,6 +44,9 @@
             margin-bottom: 15px;
             font-size: 1.2em;
             text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         a {
             color: #3498db;
@@ -53,6 +56,12 @@
         a:hover {
             text-decoration: underline;
             color: #ffeb3b;
+        }
+        .thumbnail {
+            width: 120px;
+            height: 68px;
+            object-fit: cover;
+            border-radius: 5px;
         }
         .container {
             max-width: 1000px;
@@ -72,8 +81,14 @@
         <h1>Modders Wanna Have Fun</h1>
         <h2>Articles</h2>
         <ul>
-            <li><a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator?</a></li>
-            <li><a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a></li>
+            <li>
+                <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="vWii NAND to Dolphin Emulator" class="thumbnail">
+                <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator?</a>
+            </li>
+            <li>
+                <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="thumbnail"> <!-- Replace with actual thumbnail -->
+                <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
+            </li>
             <!-- Add more links to other articles as needed -->
         </ul>
         <div class="footer">
