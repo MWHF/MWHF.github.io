@@ -6,83 +6,96 @@
     <title>How to Import the Wii U's vWii NAND into Dolphin Emulator</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
     <link rel="stylesheet" href="https://mwhf.github.io/articles.css">
+    <link rel="stylesheet" href="https://mwhf.github.io/navbar.css"> <!-- Link to the navbar CSS -->
 </head>
 <body>
-    <h1>How to Import the Wii U's vWii NAND into Dolphin Emulator</h1>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="https://mwhf.github.io/" class="navbar-brand">Modders Wanna Have Fun</a>
+            <ul class="navbar-nav">
+                <li><a href="https://mwhf.github.io/">Articles</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <p>This guide will walk you through the process of importing the NAND from the Wii U's vWii (Virtual Wii) mode into the Dolphin Emulator on PC. This process is useful for those looking to emulate their vWii experience on Dolphin, including the ability to connect to Wiimmfi and WiiConnect24 services.</p>
+    <!-- Article Content -->
+    <div class="container">
+        <h1>How to Import the Wii U's vWii NAND into Dolphin Emulator</h1>
 
-    <h2>Prerequisites</h2>
-    <p>Before starting, make sure you have a modded vWii with access to the Homebrew Channel. If you haven't installed the Homebrew Channel on your vWii yet, follow the instructions <a href="https://wii.hacks.guide/vwii-homebrew-channel.html" target="_blank">here</a>.</p>
+        <p>This guide will walk you through the process of importing the NAND from the Wii U's vWii (Virtual Wii) mode into the Dolphin Emulator on PC. This process is useful for those looking to emulate their vWii experience on Dolphin, including the ability to connect to Wiimmfi and WiiConnect24 services.</p>
 
-    <h2>Required Tools and Resources</h2>
-    <ul>
-        <li><a href="https://hbb1.oscwii.org/api/contents/DmpMiNND/DmpMiNND.zip" target="_blank">Dump Mii NAND</a> - For the initial NAND dump.</li>
-        <li><a href="https://forum.wii-homebrew.com/index.php/Attachment/15182-nand-fixer-4-zip/" target="_blank">NAND Dump Fixer</a> - A tool created by the Wiimmfi developer to allow connections with Wiimmfi and WiiConnect24 from Dolphin Emulator.</li>
-        <li>FAT32 formatted SD Card - Ensure your SD card has enough space for the NAND backup and other required files.</li>
-    </ul>
+        <h2>Prerequisites</h2>
+        <p>Before starting, make sure you have a modded vWii with access to the Homebrew Channel. If you haven't installed the Homebrew Channel on your vWii yet, follow the instructions <a href="https://wii.hacks.guide/vwii-homebrew-channel.html" target="_blank">here</a>.</p>
 
-    <h2>Instructions</h2>
-
-    <h3>Step 1: Prepare Your SD Card</h3>
-    <ul>
-        <li>Download the necessary tools (<code>Dump Mii NAND</code> and <code>NAND Dump Fixer</code>).</li>
-        <li>Place these homebrew tools onto your Wii U's SD card:</li>
+        <h2>Required Tools and Resources</h2>
         <ul>
-            <li>Create an <code>apps</code> folder in the root of your SD card if it doesn’t already exist.</li>
-            <li>Place the downloaded tools inside the <code>apps</code> folder.</li>
+            <li><a href="https://hbb1.oscwii.org/api/contents/DmpMiNND/DmpMiNND.zip" target="_blank">Dump Mii NAND</a> - For the initial NAND dump.</li>
+            <li><a href="https://forum.wii-homebrew.com/index.php/Attachment/15182-nand-fixer-4-zip/" target="_blank">NAND Dump Fixer</a> - A tool created by the Wiimmfi developer to allow connections with Wiimmfi and WiiConnect24 from Dolphin Emulator.</li>
+            <li>FAT32 formatted SD Card - Ensure your SD card has enough space for the NAND backup and other required files.</li>
         </ul>
-    </ul>
 
-    <h3>Step 2: Boot into vWii</h3>
-    <ul>
-        <li>Insert the SD card into your Wii U.</li>
-        <li>Boot your Wii U into your custom firmware or directly into vWii mode.</li>
-    </ul>
+        <h2>Instructions</h2>
 
-    <h3>Step 3: Dump the NAND</h3>
-    <ul>
-        <li>Launch the Homebrew Channel from vWii.</li>
-        <li>Select and launch <code>Dump Mii NAND</code>.</li>
-        <li>Press <code>A</code> to start dumping the NAND to your SD card.</li>
-        <li>Wait for the process to complete. The console will return to the Wii U menu when finished.</li>
-    </ul>
-
-    <h3>Step 4: Fix the NAND Dump</h3>
-    <ul>
-        <li>Turn off your Wii U and reinsert the SD card.</li>
-        <li>Boot back into vWii and launch the Homebrew Channel again.</li>
-        <li>This time, launch <code>NAND Dump Fixer</code>.</li>
-        <li>The tool will add files that <code>Dump Mii NAND</code> may have missed, particularly those needed for connecting with Wiimmfi or WiiConnect24.</li>
-        <li>Once the tool displays <code>FIXED</code>, you can turn off your Wii U.</li>
-    </ul>
-
-    <h3>Step 5: Import NAND into Dolphin Emulator</h3>
-    <ul>
-        <li>Insert the SD card back into your computer.</li>
-        <li>Open Dolphin Emulator.</li>
-        <li>On the top bar, select <strong>File</strong> &gt; <strong>Open User Folder</strong>. This will open the Dolphin user directory in your file explorer.</li>
-        <li>Navigate to the <code>Wii</code> subdirectory and delete all existing files. This will remove the current NAND used by Dolphin.</li>
-        <li>In Dolphin, go to <strong>Tools</strong> &gt; <strong>Manage NAND</strong> &gt; <strong>Import BootMii NAND Backup</strong>.</li>
-        <li>Select the <code>nand.bin</code> file located on the root of your SD card and confirm the import. Allow Dolphin to merge this with the current NAND.</li>
-        <li>Once Dolphin has successfully loaded the NAND (this may take a few seconds), your NAND is now imported.</li>
-    </ul>
-
-    <h3>Step 6: Access the vWii System Menu</h3>
-    <p>To access the vWii System Menu in Dolphin:</p>
-    <ul>
-        <li>Go to <strong>Tools</strong> &gt; <strong>Load vWii System Menu {current Wii version}</strong> from the top bar in Dolphin.</li>
-    </ul>
-
-    <div class="important">
-        <p><strong>Important Notes:</strong></p>
+        <h3>Step 1: Prepare Your SD Card</h3>
         <ul>
-            <li><strong>This guide is intended for exporting the vWii NAND to Dolphin Emulator on PC.</strong> Do not use this NAND on your regular Wii or any other system, as it could cause issues or bricking.</li>
-            <li>If you need to access Wii settings in vWii or adjust WiiConnect24 settings, you can use the following homebrew tool: <a href="http://www.mediafire.com/?brbc82fojkebbea" target="_blank">SettingsEditorGUI</a>.</li>
+            <li>Download the necessary tools (<code>Dump Mii NAND</code> and <code>NAND Dump Fixer</code>).</li>
+            <li>Place these homebrew tools onto your Wii U's SD card:</li>
+            <ul>
+                <li>Create an <code>apps</code> folder in the root of your SD card if it doesn’t already exist.</li>
+                <li>Place the downloaded tools inside the <code>apps</code> folder.</li>
+            </ul>
         </ul>
+
+        <h3>Step 2: Boot into vWii</h3>
+        <ul>
+            <li>Insert the SD card into your Wii U.</li>
+            <li>Boot your Wii U into your custom firmware or directly into vWii mode.</li>
+        </ul>
+
+        <h3>Step 3: Dump the NAND</h3>
+        <ul>
+            <li>Launch the Homebrew Channel from vWii.</li>
+            <li>Select and launch <code>Dump Mii NAND</code>.</li>
+            <li>Press <code>A</code> to start dumping the NAND to your SD card.</li>
+            <li>Wait for the process to complete. The console will return to the Wii U menu when finished.</li>
+        </ul>
+
+        <h3>Step 4: Fix the NAND Dump</h3>
+        <ul>
+            <li>Turn off your Wii U and reinsert the SD card.</li>
+            <li>Boot back into vWii and launch the Homebrew Channel again.</li>
+            <li>This time, launch <code>NAND Dump Fixer</code>.</li>
+            <li>The tool will add files that <code>Dump Mii NAND</code> may have missed, particularly those needed for connecting with Wiimmfi or WiiConnect24.</li>
+            <li>Once the tool displays <code>FIXED</code>, you can turn off your Wii U.</li>
+        </ul>
+
+        <h3>Step 5: Import NAND into Dolphin Emulator</h3>
+        <ul>
+            <li>Insert the SD card back into your computer.</li>
+            <li>Open Dolphin Emulator.</li>
+            <li>On the top bar, select <strong>File</strong> &gt; <strong>Open User Folder</strong>. This will open the Dolphin user directory in your file explorer.</li>
+            <li>Navigate to the <code>Wii</code> subdirectory and delete all existing files. This will remove the current NAND used by Dolphin.</li>
+            <li>In Dolphin, go to <strong>Tools</strong> &gt; <strong>Manage NAND</strong> &gt; <strong>Import BootMii NAND Backup</strong>.</li>
+            <li>Select the <code>nand.bin</code> file located on the root of your SD card and confirm the import. Allow Dolphin to merge this with the current NAND.</li>
+            <li>Once Dolphin has successfully loaded the NAND (this may take a few seconds), your NAND is now imported.</li>
+        </ul>
+
+        <h3>Step 6: Access the vWii System Menu</h3>
+        <p>To access the vWii System Menu in Dolphin:</p>
+        <ul>
+            <li>Go to <strong>Tools</strong> &gt; <strong>Load vWii System Menu {current Wii version}</strong> from the top bar in Dolphin.</li>
+        </ul>
+
+        <div class="important">
+            <p><strong>Important Notes:</strong></p>
+            <ul>
+                <li><strong>This guide is intended for exporting the vWii NAND to Dolphin Emulator on PC.</strong> Do not use this NAND on your regular Wii or any other system, as it could cause issues or bricking.</li>
+                <li>If you need to access Wii settings in vWii or adjust WiiConnect24 settings, you can use the following homebrew tool: <a href="http://www.mediafire.com/?brbc82fojkebbea" target="_blank">SettingsEditorGUI</a>.</li>
+            </ul>
+        </div>
+
+        <p>This guide has been provided by <strong>Aarontendo</strong>. You can check out more from Aarontendo on <a href="https://www.youtube.com/@aarontendotv" target="_blank">YouTube</a>.</p>
     </div>
-
-    <p>This guide has been provided by <strong>Aarontendo</strong>. You can check out more from Aarontendo on <a href="https://www.youtube.com/@aarontendotv" target="_blank">YouTube</a>.</p>
-
 </body>
 </html>
