@@ -41,12 +41,13 @@
             max-width: 800px;
         }
         li {
-            margin-bottom: 15px;
+            margin-bottom: 20px; /* Increased margin for better spacing */
             font-size: 1.2em;
             text-align: center;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between; /* Space between thumbnail and avatar */
+            gap: 20px; /* Gap between items */
         }
         a {
             color: #3498db;
@@ -62,6 +63,12 @@
             height: 68px;
             object-fit: cover;
             border-radius: 5px;
+        }
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
         }
         .container {
             max-width: 1000px;
@@ -84,10 +91,12 @@
             <li>
                 <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="vWii NAND to Dolphin Emulator" class="thumbnail">
                 <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator?</a>
+                <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
             </li>
             <li>
-                <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="thumbnail"> <!-- Replace with actual thumbnail -->
+                <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="thumbnail">
                 <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
+                <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
             </li>
             <!-- Add more links to other articles as needed -->
         </ul>
