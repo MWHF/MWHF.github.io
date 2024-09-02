@@ -86,7 +86,7 @@
     
     <ul>
         <li><strong>Graphics API:</strong> <code>Vulkan</code></li>
-        <li><strong>Graphics Device:</strong> Select your native graphics device. If you're unsure, this is typically the integrated or dedicated GPU on your system.</li>
+        <li><strong>Graphics Device:</strong> Select your native graphics device. For the AMD Radeon(TM) Vega 8 Graphics, this is typically the integrated GPU.</li>
         <li><strong>VSync:</strong> <code>Triple Buffering</code></li>
         <ul>
             <li>Using <strong>Triple Buffering</strong> helps to smooth out gameplay and menus. Unlike Double Buffering, which may cause slow gameplay even if the menus run fine, Triple Buffering allows the GPU to work more efficiently by reducing the time spent waiting between frames. This results in a smoother overall experience without the drawbacks of screen tearing or excessive input lag.</li>
@@ -94,16 +94,6 @@
         <li><strong>Upscale Filter:</strong> <code>Bilinear</code></li>
         <li><strong>Downscale Filter:</strong> <code>Bilinear</code></li>
         <li><strong>Fullscreen Scaling:</strong> <code>Keep aspect ratio</code></li>
-    </ul>
-
-    <h2>CPU Settings</h2>
-    <p>Your CPU plays a critical role in emulation performance. For a Ryzen 5 3600, the following settings are recommended:</p>
-
-    <ul>
-        <li><strong>CPU Mode:</strong> <code>Dual-Core Recompiler</code></li>
-        <ul>
-            <li>This mode strikes a balance between performance and compatibility. It allows the emulator to utilize more of your CPU's cores, which can lead to better performance in many games.</li>
-        </ul>
     </ul>
 
     <h2>Shader Compilation</h2>
@@ -120,6 +110,9 @@
         </ul>
     </ul>
 
+    <h2>Performance Testing</h2>
+    <p>With these settings on a Ryzen 5 3600 and AMD Radeon(TM) Vega 8 Graphics, my average frame rate has been around <strong>60 frames per second</strong>, with the lowest being <strong>54.60 fps</strong> and the highest reaching <strong>60.50 fps</strong>. This indicates that the settings provide a stable and smooth gameplay experience for the tested games.</p>
+
     <h2>General Tips</h2>
     <p>Here are a few additional tips to ensure smooth performance on your Ryzen 5 3600:</p>
 
@@ -135,13 +128,13 @@
             <li><strong>Test Settings Per Game:</strong> While these settings should provide a solid baseline, some games may require individual tweaks. Always test and adjust settings based on the specific demands of the game you're playing.</li>
             <li><strong>Graphic Mods:</strong> Some games may have graphic mods available that can further improve framerate or visual quality. Consider exploring these mods to enhance your gaming experience.</li>
             <li><strong>Tested Games:</strong> The graphics settings provided in this guide were tested on <strong>New Super Mario Bros. U</strong> and <strong>New Super Luigi U</strong>. Performance may vary with other titles.</li>
+            <li><strong>Minor Graphical Glitches:</strong> Minor graphical glitches may occur, such as backgrounds changing quickly when entering underground areas or vines loading in a few frames late. These issues are typically seen when first loading certain textures or after clearing the shader cache. However, they do not impact game mechanics or overall gameplay.</li>
             <li><strong>Backup Your Configurations:</strong> Before making major changes, consider backing up your Cemu settings to revert if necessary.</li>
         </ul>
     </div>
 
     <p>This guide should help you achieve a smooth gaming experience in Cemu v2.1 on your Ryzen 5 3600. If you encounter any issues or have further questions, don't hesitate to seek advice from the Cemu community or revisit your settings for further optimization.</p>
     <p>This guide has been provided by <strong>Aarontendo</strong>. You can check out more from Aarontendo on <a href="https://www.youtube.com/@aarontendotv" target="_blank">YouTube</a>.</p>
-
 
 </body>
 </html>
