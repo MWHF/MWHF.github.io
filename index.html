@@ -48,6 +48,8 @@
             align-items: center;
             justify-content: space-between; /* Space between thumbnail and avatar */
             gap: 20px; /* Gap between items */
+            position: relative;
+            overflow: visible; /* Ensure child elements are visible */
         }
         a {
             color: #3498db;
@@ -64,11 +66,39 @@
             object-fit: cover;
             border-radius: 5px;
         }
+        .author-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
         .author-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .author-text {
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateX(-20px); /* Start off screen to the left */
+            position: absolute;
+            left: 60px; /* Adjust based on avatar width */
+            top: 50%;
+            transform: translateY(-50%) translateX(-20px); /* Center vertically and start from left */
+            font-size: 1em;
+            color: #ffffff;
+            background-color: #444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap; /* Ensure text doesn't wrap */
+        }
+        .author-container:hover .author-avatar {
+            transform: translateX(-10px); /* Move avatar to the left */
+        }
+        .author-container:hover .author-text {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0); /* Slide into view from the left */
         }
         .container {
             max-width: 1000px;
@@ -91,12 +121,18 @@
             <li>
                 <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="vWii NAND to Dolphin Emulator" class="thumbnail">
                 <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator?</a>
-                <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
+                <div class="author-container">
+                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
+                    <div class="author-text">By Aarontendo</div>
+                </div>
             </li>
             <li>
                 <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="thumbnail">
                 <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
-                <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
+                <div class="author-container">
+                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
+                    <div class="author-text">By Aarontendo</div>
+                </div>
             </li>
             <!-- Add more links to other articles as needed -->
         </ul>
