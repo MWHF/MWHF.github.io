@@ -82,3 +82,30 @@ li {
 .important p {
     margin: 0;
 }
+
+.games-mentioned {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+    gap: 20px;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.game {
+    text-align: center;
+}
+
+.game img {
+    max-width: 176px;
+    max-height: 248px;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+}
+
+.game p {
+    margin-top: 10px;
+    font-weight: bold;
+}
