@@ -1,145 +1,319 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Modders Wanna Have Fun">
-    <meta property="og:description" content="Welcome to Modders Wanna Have Fun! Explore our latest articles on game modding and optimization. Check out our guides for smooth gameplay and more.">
-    <meta property="og:image" content="https://example.com/path-to-your-image.jpg"> <!-- Replace with the actual path to your image -->
-    <meta property="og:url" content="https://www.yourwebsite.com"> <!-- Replace with your website URL -->
+    <meta property="og:description" content="Explore our latest articles on game modding and optimization.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Modders Wanna Have Fun">
-    <title>MWHF Homepage</title>
+    <title>Modders Wanna Have Fun</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    
+    <!-- Google Fonts: Orbitron for headers (Gamer feel), Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0f172a', // Main Background
+                            800: '#1e293b', // Card Background
+                            700: '#334155', // Borders
+                        },
+                        brand: {
+                            orange: '#f39c12',
+                            blue: '#3498db',
+                            yellow: '#ffeb3b',
+                            red: '#e74c3c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #181818;
-            color: #e0e0e0;
-            padding: 20px;
-            margin: 0;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        h1 {
-            text-align: center;
-            color: #ffffff;
-            border-bottom: 2px solid #444;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
         }
-        h2 {
-            color: #f39c12;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            font-size: 1.8em;
-            text-align: center;
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0 auto;
-            max-width: 800px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f39c12; 
         }
-        li {
-            margin-bottom: 20px; /* Increased margin for better spacing */
-            font-size: 1.2em;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Space between thumbnail and avatar */
-            gap: 20px; /* Gap between items */
-            position: relative;
-            overflow: visible; /* Ensure child elements are visible */
+
+        /* ARTICLE CONTENT STYLES 
+           These classes map to your original articles.css logic.
+           Apply the class "article-content" to the wrapper div of your blog posts.
+        */
+        .article-content h1 { @apply font-display text-4xl text-white border-b-2 border-dark-700 pb-4 mb-8 mt-4 text-center; }
+        .article-content h2 { @apply font-display text-2xl text-brand-orange border-l-4 border-brand-orange pl-4 mt-8 mb-4; }
+        .article-content h3 { @apply font-display text-xl text-brand-orange mt-6 mb-2; }
+        .article-content p { @apply text-gray-300 text-lg leading-relaxed mb-6; }
+        .article-content a { @apply text-brand-blue hover:text-brand-yellow transition-colors underline decoration-dotted; }
+        .article-content ul { @apply list-disc list-inside ml-4 text-gray-300 space-y-2 mb-6; }
+        .article-content code { @apply bg-dark-900 text-brand-orange px-2 py-1 rounded font-mono text-sm border border-dark-700; }
+        
+        /* Highlight Box */
+        .article-content .important {
+            @apply bg-dark-900/50 border-l-4 border-brand-red p-6 rounded-r-lg my-8 shadow-lg backdrop-blur-sm;
         }
-        a {
-            color: #3498db;
-            text-decoration: none;
-            transition: color 0.3s ease;
+
+        /* Game Grid in Articles */
+        .article-content .games-mentioned {
+            @apply grid grid-cols-2 md:grid-cols-4 gap-6 bg-dark-900/50 p-6 rounded-lg mt-8 border border-dark-700;
         }
-        a:hover {
-            text-decoration: underline;
-            color: #ffeb3b;
-        }
-        .thumbnail {
-            width: 120px;
-            height: 68px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .author-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .author-text {
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateX(-20px); /* Start off screen to the left */
-            position: absolute;
-            left: 60px; /* Adjust based on avatar width */
-            top: 50%;
-            transform: translateY(-50%) translateX(-20px); /* Center vertically and start from left */
-            font-size: 1em;
-            color: #ffffff;
-            background-color: #444;
-            padding: 5px 10px;
-            border-radius: 5px;
-            white-space: nowrap; /* Ensure text doesn't wrap */
-        }
-        .author-container:hover .author-avatar {
-            transform: translateX(-10px); /* Move avatar to the left */
-        }
-        .author-container:hover .author-text {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0); /* Slide into view from the left */
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #b0b0b0;
-        }
+        .article-content .game img { @apply rounded-lg shadow-md hover:scale-105 transition-transform duration-300; }
+        .article-content .game p { @apply text-gray-400 font-bold mt-2 text-center text-sm; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Modders Wanna Have Fun</h1>
-        <h2>Articles</h2>
-        <ul>
-            <li>
-                <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="vWii NAND to Dolphin Emulator" class="thumbnail">
-                <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator?</a>
-                <div class="author-container">
-                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
-                    <div class="author-text">By Aarontendo</div>
-                </div>
-            </li>
-            <li>
-                <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="thumbnail">
-                <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
-                <div class="author-container">
-                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Author Avatar" class="author-avatar">
-                    <div class="author-text">By Aarontendo</div>
-                </div>
-            </li>
-            <!-- Add more links to other articles as needed -->
-        </ul>
-        <div class="footer">
-            <p>&copy; 2024 Modders Wanna Have Fun. All rights reserved.</p>
+<body class="bg-dark-900 text-gray-200 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-dark-900/90 backdrop-blur-md border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <!-- Updated Logo: Full containment, no cropping -->
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-12 h-12 object-contain">
+                <span class="font-display font-bold text-xl tracking-wider text-white">MWHF</span>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="#" class="hover:text-brand-orange transition-colors">Home</a>
+                <a href="#articles" class="hover:text-brand-orange transition-colors">Guides</a>
+                <a href="#" class="hover:text-brand-orange transition-colors">Tools</a>
+                <a href="#" class="hover:text-brand-orange transition-colors">About</a>
+            </div>
+            <button class="md:hidden text-white">
+                <i data-lucide="menu"></i>
+            </button>
         </div>
-    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden py-20 lg:py-32">
+        <!-- Background decorative blobs -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl -z-10"></div>
+
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="font-display text-5xl md:text-7xl font-black mb-6 text-white tracking-tight">
+                MODDERS <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-brand-yellow">WANNA</span> HAVE FUN
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                The ultimate hub for emulation guides, hardware optimization, and pushing your games beyond their limits.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#articles" class="bg-brand-orange hover:bg-yellow-500 text-dark-900 font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-orange-500/20">
+                    Latest Guides
+                </a>
+                <a href="#" class="border border-dark-700 hover:border-brand-blue hover:text-brand-blue bg-dark-800 text-white font-bold py-3 px-8 rounded-full transition-all">
+                    Submit a Mod
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-12" id="articles">
+        
+        <!-- Search & Filter -->
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+                <h2 class="font-display text-3xl text-white mb-2">Latest Articles</h2>
+                <div class="h-1 w-20 bg-brand-orange rounded"></div>
+            </div>
+            <div class="relative w-full md:w-auto">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5"></i>
+                <input type="text" id="searchInput" placeholder="Find a guide..." 
+                    class="w-full md:w-80 bg-dark-800 border border-dark-700 text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+            </div>
+        </div>
+
+        <!-- Article Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articleGrid">
+            
+            <!-- Article Card 1 -->
+            <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 hover:-translate-y-1 flex flex-col">
+                <div class="relative overflow-hidden h-48">
+                    <!-- Added Link Wrapper to Image -->
+                    <a href="articles/475837.html" class="block w-full h-full">
+                        <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="Wii U NAND" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <div class="absolute top-3 left-3 bg-brand-blue text-white text-xs font-bold px-2 py-1 rounded shadow-md pointer-events-none">EMULATION</div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="font-display text-xl text-white mb-3 leading-tight group-hover:text-brand-orange transition-colors">
+                        <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator</a>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">
+                        A comprehensive step-by-step guide to transferring your NAND dump for a seamless emulation experience.
+                    </p>
+                    
+                    <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-8 h-8 rounded-full border border-dark-700">
+                            <span class="text-sm font-medium text-gray-300">Aarontendo</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-lucide="clock" class="w-3 h-3"></i> 5 min read
+                        </span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Article Card 2 -->
+            <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 hover:-translate-y-1 flex flex-col">
+                <div class="relative overflow-hidden h-48">
+                    <!-- Added Link Wrapper to Image -->
+                    <a href="articles/587684.html" class="block w-full h-full">
+                        <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <div class="absolute top-3 left-3 bg-brand-orange text-dark-900 text-xs font-bold px-2 py-1 rounded shadow-md pointer-events-none">OPTIMIZATION</div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="font-display text-xl text-white mb-3 leading-tight group-hover:text-brand-orange transition-colors">
+                        <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">
+                        Get the most out of your Ryzen 5 3600. We benchmark vulkan vs opengl and tweak the shader cache.
+                    </p>
+                    
+                    <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-8 h-8 rounded-full border border-dark-700">
+                            <span class="text-sm font-medium text-gray-300">Aarontendo</span>
+                        </div>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i data-lucide="clock" class="w-3 h-3"></i> 8 min read
+                        </span>
+                    </div>
+                </div>
+            </article>
+
+             <!-- Placeholder Card (To show grid layout) -->
+             <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 border-dashed hover:border-solid hover:border-brand-orange/50 transition-all duration-300 flex flex-col opacity-75">
+                <div class="h-48 bg-dark-700 flex items-center justify-center text-gray-500">
+                    <i data-lucide="image" class="w-12 h-12 opacity-20"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="font-display text-xl text-gray-500 mb-3 leading-tight">
+                        More content coming soon...
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-6 flex-grow">
+                        Stay tuned for more guides on Switch emulation and PC hardware tweaks.
+                    </p>
+                    <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
+                        <div class="h-8 w-24 bg-dark-700 rounded animate-pulse"></div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+        
+        <!-- No Results Msg (Hidden by default) -->
+        <div id="noResults" class="hidden text-center py-20">
+            <i data-lucide="ghost" class="w-16 h-16 text-gray-600 mx-auto mb-4"></i>
+            <h3 class="text-xl font-display text-gray-400">No guides found</h3>
+            <p class="text-gray-600">Try searching for 'Dolphin' or 'Cemu'</p>
+        </div>
+
+    </main>
+
+    <!-- Style Preview Section (For you to see the Article Styles) -->
+    <section class="bg-dark-800 py-12 border-t border-dark-700">
+        <div class="container mx-auto px-6">
+            <h4 class="text-gray-500 font-display text-sm uppercase tracking-widest mb-8 text-center">Article Typography Preview (From your CSS)</h4>
+            
+            <div class="article-content max-w-3xl mx-auto bg-dark-900 p-8 rounded-xl border border-dark-700 shadow-2xl">
+                <!-- This demonstrates how an article will look using the styles in the <head> -->
+                <h1>Sample Article Header</h1>
+                <p>This is a paragraph demonstrating the style. <code>inline code</code> looks like this.</p>
+                <div class="important">
+                    <p><strong>Note:</strong> This is the .important class box style.</p>
+                </div>
+                <h2>Subsection Title</h2>
+                <ul>
+                    <li>List item one</li>
+                    <li>List item two</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 border-t border-dark-700 mt-auto">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <span class="font-display font-bold text-xl text-white tracking-wider">MWHF</span>
+                    <!-- Updated Year -->
+                    <p class="text-gray-500 text-sm mt-2">&copy; 2024-2025 Modders Wanna Have Fun.</p>
+                </div>
+                
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="twitter"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="github"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Search Logic
+        const searchInput = document.getElementById('searchInput');
+        const articleGrid = document.getElementById('articleGrid');
+        const articles = articleGrid.getElementsByTagName('article');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            let hasResults = false;
+
+            Array.from(articles).forEach(article => {
+                const title = article.querySelector('h3').innerText.toLowerCase();
+                const desc = article.querySelector('p').innerText.toLowerCase();
+                
+                if(title.includes(term) || desc.includes(term)) {
+                    article.style.display = "flex"; // flex because of the layout
+                    hasResults = true;
+                } else {
+                    article.style.display = "none";
+                }
+            });
+
+            if(hasResults) {
+                noResults.classList.add('hidden');
+            } else {
+                noResults.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
