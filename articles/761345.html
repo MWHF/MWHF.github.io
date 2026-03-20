@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="RetroArch Mega Guide: Shaders, Overlays, and Perfect CRT Filters">
+    <meta property="og:description" content="Master RetroArch from the ground up — best cores, CRT shaders, overlays, and cloud save sync.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>RetroArch Mega Guide: Shaders, Overlays &amp; CRT Filters — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans:['Inter','sans-serif'], display:['Orbitron','sans-serif'], mono:['JetBrains Mono','monospace'] },
+                    colors: {
+                        dark: { 950:'#080e1a', 900:'#0d1525', 800:'#1a2540', 700:'#243354', 600:'#2e4068' },
+                        brand: { orange:'#f39c12', blue:'#3b82f6', cyan:'#22d3ee', yellow:'#fbbf24', red:'#ef4444', green:'#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #readingProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .article-content h1{font-family:'Orbitron',sans-serif;font-size:2.2rem;color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .article-content h2{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .article-content h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .article-content p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .article-content a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+        .article-content a:hover{color:#fbbf24}
+        .article-content ul{list-style:disc;margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}
+        .article-content ul li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .article-content code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .article-content strong{color:#fff;font-weight:600}
+        .article-content hr{border-color:#243354;margin:2.5rem 0}
+        .important{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        .important strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .cores-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .cores-table th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .cores-table td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}
+        .cores-table tr:hover td{background:rgba(36,51,84,0.3)}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <div id="readingProgress"></div>
+
+    <nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-10 h-10 object-contain rounded-lg">
+                <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+            </a>
+            <div class="hidden md:flex gap-8 font-display tracking-wider">
+                <a href="../index.html" class="hover:text-brand-orange transition-colors text-gray-400 text-xs">HOME</a>
+                <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+            </div>
+            <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+        <div class="article-content">
+            <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+                <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <span class="text-gray-400">RetroArch Guide</span>
+            </nav>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+                <span class="bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">GUIDE</span>
+                <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+            </div>
+
+            <h1>RetroArch Mega Guide: Shaders, Overlays &amp; CRT Filters</h1>
+
+            <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+                <div class="flex items-center gap-3">
+                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+                    <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 15 min read</span>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2025</span>
+                </div>
+            </div>
+
+            <p>RetroArch is the Swiss Army knife of emulation — a unified frontend that can run dozens of emulator cores, apply stunning CRT shaders, sync saves to the cloud, and scale up pixel art with intelligent algorithms. The learning curve can feel steep, but once it clicks, it becomes the only emulation tool you'll ever need. This guide covers everything from initial setup to advanced shader configurations.</p>
+
+            <h2>Step 1: Download and First Launch</h2>
+            <p>Get the latest RetroArch from <a href="https://www.retroarch.com/index.php?page=platforms">retroarch.com</a>. The installer version handles driver dependencies automatically. On first launch you'll see the XMB (PlayStation-style) menu — navigate using arrow keys or a controller.</p>
+            <p>First thing: go to <strong>Main Menu &gt; Online Updater</strong> and run:</p>
+            <ul>
+                <li><strong>Update Core Info Files</strong></li>
+                <li><strong>Update Assets</strong></li>
+                <li><strong>Update Shaders (GLSL)</strong></li>
+                <li><strong>Update Shaders (Slang)</strong> — these are the best quality shaders</li>
+                <li><strong>Update Databases</strong></li>
+            </ul>
+            <p>This ensures you have the latest core metadata and all shader packs downloaded locally.</p>
+
+            <h2>Step 2: Installing the Right Cores</h2>
+            <p>A "core" is an emulator module within RetroArch. Use <strong>Main Menu &gt; Load Core &gt; Download a Core</strong> to install them. Here are the best cores for each system:</p>
+
+            <table class="cores-table">
+                <thead>
+                    <tr><th>System</th><th>Best Core</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>NES</td><td><code>Mesen</code></td><td>Best accuracy; Nestopia UE for older hardware</td></tr>
+                    <tr><td>SNES</td><td><code>bsnes-hd beta</code></td><td>HD Mode 7; use Snes9x for performance</td></tr>
+                    <tr><td>Game Boy / GBC</td><td><code>Gambatte</code></td><td>Highly accurate, supports SGB borders</td></tr>
+                    <tr><td>GBA</td><td><code>mGBA</code></td><td>Best accuracy by far for GBA titles</td></tr>
+                    <tr><td>Genesis / Mega Drive</td><td><code>Genesis Plus GX</code></td><td>Excellent compatibility and accuracy</td></tr>
+                    <tr><td>PlayStation 1</td><td><code>Beetle PSX HW</code></td><td>PGXP for geometry correction; Duckstation for speed</td></tr>
+                    <tr><td>Nintendo 64</td><td><code>Mupen64Plus-Next</code></td><td>GLideN64 plugin for best visuals</td></tr>
+                    <tr><td>Arcade (MAME)</td><td><code>MAME 2003-Plus</code></td><td>Good compatibility; use current MAME for newer games</td></tr>
+                </tbody>
+            </table>
+
+            <h2>Step 3: CRT Shaders — The Crown Jewel</h2>
+            <p>RetroArch's shader system can make old games look like they're running on authentic vintage hardware. The <strong>Slang</strong> shader format offers the highest quality and supports complex multi-pass effects. Here are the best shader presets to try:</p>
+
+            <h3>For the Authentic CRT Look</h3>
+            <p>Navigate to <strong>Quick Menu &gt; Shaders &gt; Load Shader Preset</strong> and browse to <code>shaders_slang/crt/</code>. These are the standout options:</p>
+            <ul>
+                <li><strong>crt-royale:</strong> The gold standard. Full phosphor simulation, accurate scanlines, and authentic bloom. Demanding on GPU but stunning results. Best for a 4K display.</li>
+                <li><strong>crt-guest-advanced:</strong> Excellent balance between accuracy and performance. One of the most popular CRT shaders in the community.</li>
+                <li><strong>crt-lottes:</strong> Efficient and beautiful. A great starting point if crt-royale is too heavy.</li>
+                <li><strong>blargg-ntsc:</strong> Simulates NTSC composite signal, including color bleeding and dot crawl. Incredibly authentic for NES and SNES.</li>
+            </ul>
+
+            <div class="tip">
+                <strong>Save Your Shader Presets</strong>
+                <p style="margin:0;color:#cbd5e1;font-size:0.95rem">After finding a shader you love, go to <strong>Quick Menu &gt; Shaders &gt; Save Global Shader Preset</strong> to apply it to all cores, or <strong>Save Core Preset</strong> to apply it only when using a specific emulator. This way you can have CRT shaders for retro cores and clean output for N64/PS1.</p>
+            </div>
+
+            <h3>For Pixel Art Upscaling (No CRT)</h3>
+            <p>If you prefer clean, sharp pixels rather than CRT simulation, try the scalers in <code>shaders_slang/scalers/</code>:</p>
+            <ul>
+                <li><strong>xBR / xBRZ:</strong> Smart edge-smoothing that follows curves naturally</li>
+                <li><strong>HQx:</strong> High-quality, slightly stylized smoothing — great for RPGs</li>
+                <li><strong>scalefx:</strong> Modern high-quality scaler with minimal artifacting</li>
+            </ul>
+
+            <h2>Step 4: Overlays — Frame Your Games</h2>
+            <p>Overlays add decorative frames and bezel artwork around your games, simulating the look of a real CRT TV or handheld screen. Go to <strong>Quick Menu &gt; On-Screen Overlay &gt; Overlay Preset</strong>.</p>
+            <p>The best overlay packs are available via the <strong>Online Updater &gt; Thumbnails Updater</strong> and the <strong>Overlay Updater</strong>. Look for the <strong>"Duimon" overlay pack</strong> — it includes stunning, professionally designed bezels for virtually every retro system with matching artwork.</p>
+
+            <h2>Step 5: Rewind, Run-Ahead, and Save States</h2>
+            <p>RetroArch has incredible quality-of-life features that standalone emulators often lack:</p>
+            <ul>
+                <li><strong>Rewind:</strong> Enable in <strong>Settings &gt; Frame Throttle &gt; Rewind</strong>. Hold the rewind button to travel back in time within a game. Uses RAM proportional to the buffer size you configure.</li>
+                <li><strong>Run-Ahead:</strong> Reduces input lag by simulating ahead and discarding frames. Even 1 frame of run-ahead makes many games feel noticeably snappier. Find it under <strong>Quick Menu &gt; Latency</strong>.</li>
+                <li><strong>Save States:</strong> Use <code>F2</code> to save and <code>F4</code> to load by default. You can configure up to 999 slots.</li>
+            </ul>
+
+            <h2>Step 6: Cloud Save Sync</h2>
+            <p>RetroArch supports save syncing via <strong>RetroAchievements</strong> (for achievement tracking) and external cloud solutions. For a simple cross-device setup, point your RetroArch saves folder at a synced cloud directory (Dropbox, OneDrive, etc.) and RetroArch will read/write saves there automatically.</p>
+
+            <hr>
+
+            <p>RetroArch transforms your PC into a complete retro gaming machine. Between the best-in-class shader library, per-core configuration, and the unified interface, it genuinely offers the ideal way to experience classic gaming on modern hardware.</p>
+        </div>
+    </main>
+
+    <footer class="bg-dark-950 border-t border-dark-700">
+        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded">
+                <span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span>
+            </div>
+            <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2025 Modders Wanna Have Fun.</p>
+            <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const el = document.documentElement;
+            const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+            document.getElementById('readingProgress').style.width = pct + '%';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="PCSX2 1.7 Nightly – The Ultimate PS2 Emulator Configuration Guide">
+    <meta property="og:description" content="Configure PCSX2's new Qt interface, enable upscaling to 4K, fix common graphical glitches, and get the best compatibility settings for your PS2 library.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>PCSX2 1.7 Nightly – Ultimate PS2 Configuration Guide — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans:['Inter','sans-serif'], display:['Orbitron','sans-serif'], mono:['JetBrains Mono','monospace'] },
+                    colors: {
+                        dark: { 950:'#080e1a', 900:'#0d1525', 800:'#1a2540', 700:'#243354', 600:'#2e4068' },
+                        brand: { orange:'#f39c12', blue:'#3b82f6', cyan:'#22d3ee', yellow:'#fbbf24', red:'#ef4444', green:'#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #readingProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .article-content h1{font-family:'Orbitron',sans-serif;font-size:2.2rem;color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .article-content h2{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .article-content h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .article-content p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .article-content a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+        .article-content a:hover{color:#fbbf24}
+        .article-content ul{list-style:disc;margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}
+        .article-content ul li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .article-content ol{list-style:decimal;margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}
+        .article-content ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .article-content code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .article-content strong{color:#fff;font-weight:600}
+        .article-content hr{border-color:#243354;margin:2.5rem 0}
+        .important{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        .important strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .settings-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .settings-table th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .settings-table td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}
+        .settings-table tr:hover td{background:rgba(36,51,84,0.3)}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <div id="readingProgress"></div>
+
+    <nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-10 h-10 object-contain rounded-lg">
+                <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+            </a>
+            <div class="hidden md:flex gap-8 font-display tracking-wider">
+                <a href="../index.html" class="hover:text-brand-orange transition-colors text-gray-400 text-xs">HOME</a>
+                <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+            </div>
+            <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+        <div class="article-content">
+            <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+                <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <span class="text-gray-400">PCSX2 Setup</span>
+            </nav>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+                <span class="bg-blue-500/15 text-blue-400 border border-blue-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">EMULATION</span>
+                <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+            </div>
+
+            <h1>PCSX2 1.7 Nightly — Ultimate PS2 Configuration Guide</h1>
+
+            <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+                <div class="flex items-center gap-3">
+                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+                    <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 10 min read</span>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2025</span>
+                </div>
+            </div>
+
+            <p>PCSX2 has come a long way. The 1.7 nightly builds introduced a completely redesigned Qt-based interface, per-game settings, improved Vulkan renderer, and dramatically better compatibility. If you haven't touched PCSX2 in a few years, this guide will get you set up from scratch and running your PS2 library at up to 4K resolution with proper upscaling.</p>
+
+            <div class="important">
+                <strong>Legal Notice</strong>
+                <p style="margin:0;color:#cbd5e1;font-size:0.95rem">You must own a physical PS2 console and legally dump your own BIOS using a tool like <strong>uLaunchELF</strong>. Downloading BIOS files from the internet is illegal. This guide assumes you have already obtained your BIOS legally.</p>
+            </div>
+
+            <h2>Step 1: Get PCSX2 Nightly</h2>
+            <p>The stable 1.6 release is outdated. Always download a recent nightly build from <a href="https://pcsx2.net/downloads/#nightly-anchor">pcsx2.net/downloads</a>. Nightly builds get frequent improvements and have significantly better game compatibility than the stable release.</p>
+            <p>Extract the archive to a permanent location, then launch <code>pcsx2-qt.exe</code> (Windows) or the equivalent executable on your platform.</p>
+
+            <h2>Step 2: BIOS Setup</h2>
+            <p>On first launch PCSX2 will ask for a BIOS directory. Place your dumped BIOS files (e.g., <code>SCPH-77006.bin</code> and associated files) into a dedicated folder, such as <code>bios/</code> inside your PCSX2 directory. PCSX2 will auto-detect all valid BIOS files in that folder.</p>
+            <p>Use the newest BIOS version you have available. SCPH-90006 (PS2 Slim) is generally recommended for broadest compatibility.</p>
+
+            <h2>Step 3: Graphics Settings</h2>
+            <p>This is where you unlock the visual quality. Go to <strong>Settings &gt; Graphics</strong>:</p>
+
+            <table class="settings-table">
+                <thead>
+                    <tr><th>Setting</th><th>Recommended</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Renderer</td><td><code>Vulkan</code></td><td>Best performance and compatibility; use OpenGL if Vulkan has issues</td></tr>
+                    <tr><td>Internal Resolution</td><td><code>4x Native (1440p)</code></td><td>Massive sharpness boost; reduce if performance suffers</td></tr>
+                    <tr><td>Texture Filtering</td><td><code>Bilinear (PS2)</code></td><td>Mimics original hardware behavior</td></tr>
+                    <tr><td>Anisotropic Filtering</td><td><code>16x</code></td><td>Dramatically improves texture detail at angles; nearly free</td></tr>
+                    <tr><td>CRC Hack Level</td><td><code>Automatic</code></td><td>Per-game auto-selection handles most glitches</td></tr>
+                    <tr><td>Blending Accuracy</td><td><code>Basic</code></td><td>Increase to High for games with transparency issues</td></tr>
+                    <tr><td>Deinterlacing</td><td><code>Blend (4:3 BOB)</code></td><td>Best for 480i games; use Weave if you see artifacts</td></tr>
+                    <tr><td>Widescreen Patches</td><td><code>On</code></td><td>Enables 16:9 for supported games</td></tr>
+                </tbody>
+            </table>
+
+            <h2>Step 4: Emulation Settings</h2>
+            <p>Under <strong>Settings &gt; Emulation</strong>, keep the following defaults unless a specific game requires otherwise:</p>
+            <ul>
+                <li><strong>EE Cycle Rate:</strong> 100% — increasing can help some slow games but breaks others</li>
+                <li><strong>Enable Speedhacks:</strong> On — PCSX2's speedhacks are well-tested and safe for most titles</li>
+                <li><strong>mVU Flag Hack:</strong> On — significant performance boost, safe for most games</li>
+                <li><strong>MTVU (Multi-Threaded VU1):</strong> On — major performance improvement on multi-core CPUs</li>
+                <li><strong>Instant DMA:</strong> Off by default — enable for specific games that have known DMA issues</li>
+            </ul>
+
+            <div class="tip">
+                <strong>Per-Game Settings</strong>
+                <p style="margin:0;color:#cbd5e1;font-size:0.95rem">One of the best features in PCSX2 1.7 nightly is per-game settings. Right-click any game in your library and choose <strong>Properties</strong> to override global settings for just that title. Use this to fix specific glitches without affecting other games.</p>
+            </div>
+
+            <h2>Step 5: Fixing Common Glitches</h2>
+            <h3>Black screen or game won't boot</h3>
+            <p>This is almost always a BIOS version mismatch or a region lock. Make sure your BIOS region matches the game region. For example, a PAL game should use a PAL BIOS (SCPH-7003x or similar).</p>
+            <h3>Texture flickering or missing geometry</h3>
+            <p>Try switching from Vulkan to OpenGL for that title. Some older PS2 shaders don't translate well to Vulkan's stricter pipeline. You can set this per-game in the game's Properties panel.</p>
+            <h3>Ghosting / blur in motion</h3>
+            <p>Increase <strong>Blending Accuracy</strong> from Basic to Medium or High. This fixes the additive blending used in many PS2 motion effects but at a higher performance cost.</p>
+            <h3>Half-screen glitch in specific titles</h3>
+            <p>Enable the <strong>Half-Screen Fix</strong> option under Graphics hacks. This affects a handful of titles like Burnout 3 and Midnight Club 3.</p>
+
+            <h2>Step 6: Audio</h2>
+            <p>PCSX2's SPU2 audio emulation is excellent. Set the <strong>Interpolation</strong> level to <code>Cubic</code> for the best sound quality, with minimal performance overhead. If you hear crackling, try switching the audio backend between Cubeb and SDL2.</p>
+
+            <hr>
+
+            <p>With the correct settings in place, PCSX2 1.7 nightly transforms your PS2 library into a gorgeous high-resolution experience. Titles like <strong>Shadow of the Colossus</strong>, <strong>God of War II</strong>, and <strong>Ratchet &amp; Clank: Up Your Arsenal</strong> look genuinely stunning at 4K with proper filtering.</p>
+        </div>
+    </main>
+
+    <footer class="bg-dark-950 border-t border-dark-700">
+        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded">
+                <span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span>
+            </div>
+            <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2025 Modders Wanna Have Fun.</p>
+            <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const el = document.documentElement;
+            const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+            document.getElementById('readingProgress').style.width = pct + '%';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Complete Ryujinx Setup Guide: Switch Emulation in 2025">
+    <meta property="og:description" content="Set up Ryujinx from scratch, install firmware and prod.keys, configure system settings, and get your Switch games running at peak performance.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>Complete Ryujinx Setup Guide: Switch Emulation in 2025 — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter','sans-serif'], display: ['Orbitron','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+                    colors: {
+                        dark: { 950:'#080e1a', 900:'#0d1525', 800:'#1a2540', 700:'#243354', 600:'#2e4068' },
+                        brand: { orange:'#f39c12', blue:'#3b82f6', cyan:'#22d3ee', yellow:'#fbbf24', red:'#ef4444', green:'#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #readingProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .article-content h1{font-family:'Orbitron',sans-serif;font-size:2.2rem;color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .article-content h2{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .article-content h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .article-content p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .article-content a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+        .article-content a:hover{color:#fbbf24}
+        .article-content ul{list-style:disc;margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}
+        .article-content ul li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .article-content ol{list-style:decimal;margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}
+        .article-content ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .article-content code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .article-content strong{color:#fff;font-weight:600}
+        .article-content hr{border-color:#243354;margin:2.5rem 0}
+        .important{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        .important strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .settings-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .settings-table th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .settings-table td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}
+        .settings-table tr:hover td{background:rgba(36,51,84,0.3)}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <div id="readingProgress"></div>
+
+    <nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-10 h-10 object-contain rounded-lg">
+                <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-display tracking-wider">
+                <a href="../index.html" class="hover:text-brand-orange transition-colors text-gray-400 text-xs">HOME</a>
+                <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+            </div>
+            <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+        <div class="article-content">
+
+            <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono" aria-label="Breadcrumb">
+                <a href="../index.html" class="hover:text-brand-orange transition-colors no-underline">Home</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <a href="../index.html#articles" class="hover:text-brand-orange transition-colors no-underline">Guides</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <span class="text-gray-400">Ryujinx Setup</span>
+            </nav>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+                <span class="bg-blue-500/15 text-blue-400 border border-blue-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">EMULATION</span>
+                <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+            </div>
+
+            <h1>Complete Ryujinx Setup Guide: Switch Emulation in 2025</h1>
+
+            <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+                <div class="flex items-center gap-3">
+                    <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+                    <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 12 min read</span>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2025</span>
+                </div>
+            </div>
+
+            <p>Ryujinx is one of the most capable Nintendo Switch emulators available today, offering excellent game compatibility and strong performance even on mid-range hardware. This guide walks you through everything — from downloading the emulator to dumping keys from your own Switch and dialing in graphics settings for the best experience.</p>
+
+            <div class="important">
+                <strong>Legal Notice</strong>
+                <p style="margin:0;color:#cbd5e1;font-size:0.95rem">You must own a Nintendo Switch console to legally use Ryujinx. Firmware files and prod.keys must be dumped from your own hardware. Downloading ROMs for games you don't own is illegal. This guide is for educational purposes.</p>
+            </div>
+
+            <h2>What You'll Need</h2>
+            <ul>
+                <li>A PC running Windows 10/11, Linux, or macOS (64-bit)</li>
+                <li>At least 8GB RAM (16GB strongly recommended)</li>
+                <li>A GPU with Vulkan 1.1 support (nearly any GPU from 2016 onward)</li>
+                <li>Your Nintendo Switch console to dump keys and firmware</li>
+                <li>Your legally owned game files in <code>.xci</code> or <code>.nsp</code> format</li>
+            </ul>
+
+            <h2>Step 1: Download Ryujinx</h2>
+            <p>Head to the official <a href="https://ryujinx.org/download">Ryujinx website</a> and download the latest release for your operating system. The portable version is recommended as it keeps all files self-contained in one folder — helpful for updates and backups.</p>
+            <p>Extract the archive to a permanent location such as <code>C:\Emulators\Ryujinx\</code>. Avoid placing it in Program Files as it can cause permission issues.</p>
+
+            <h2>Step 2: Dump Your Keys (prod.keys)</h2>
+            <p>Ryujinx requires cryptographic keys derived from your Switch hardware to decrypt game files. The recommended tool for this is <strong>Lockpick_RCM</strong>, which runs from your Switch in RCM (recovery) mode.</p>
+            <ol>
+                <li>Boot your Switch into RCM mode (hold Vol+ while powering on with a jig)</li>
+                <li>Inject the Lockpick_RCM payload using <a href="https://github.com/nicoboss/NSKeyboard">NSKeyboard</a> or TegraRCMGui</li>
+                <li>Navigate to <strong>Dump from SysNAND</strong> and let it run</li>
+                <li>Copy the resulting <code>prod.keys</code> file from your SD card</li>
+            </ol>
+            <p>Place <code>prod.keys</code> into Ryujinx's keys folder. You can open this folder directly from Ryujinx via <strong>File &gt; Open Ryujinx Folder</strong>, then navigate to the <code>system</code> subfolder.</p>
+
+            <h2>Step 3: Install Switch Firmware</h2>
+            <p>Firmware is required for many games to boot. You must dump this from your own Switch using tools like Daybreak or Goldleaf. Once you have the firmware folder ready:</p>
+            <ol>
+                <li>Open Ryujinx and go to <strong>Tools &gt; Install Firmware &gt; Install a firmware from a directory</strong></li>
+                <li>Navigate to your firmware folder and confirm</li>
+                <li>Ryujinx will display the installed firmware version in the bottom status bar</li>
+            </ol>
+
+            <div class="tip">
+                <strong>Pro Tip</strong>
+                <p style="margin:0;color:#cbd5e1;font-size:0.95rem">Keep your firmware up to date. Some games require a minimum firmware version to launch. Aim for firmware 17.0.0 or newer to maximize compatibility.</p>
+            </div>
+
+            <h2>Step 4: Optimal Graphics Settings</h2>
+            <p>Ryujinx's graphics settings have a major impact on performance and visual quality. Open <strong>Options &gt; Settings &gt; Graphics</strong> and apply these recommendations:</p>
+
+            <table class="settings-table">
+                <thead>
+                    <tr><th>Setting</th><th>Recommended Value</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Backend</td><td><code>Vulkan</code></td><td>Fastest on most GPUs; use OpenGL only as fallback</td></tr>
+                    <tr><td>Resolution Scale</td><td><code>2x (1440p)</code> or <code>Native</code></td><td>2x gives sharp visuals; use native for older hardware</td></tr>
+                    <tr><td>Anti-Aliasing</td><td><code>SMAA</code></td><td>Good quality/performance trade-off</td></tr>
+                    <tr><td>Scaling Filter</td><td><code>FSR</code></td><td>Upscaling quality; pairs well with lower resolution scale</td></tr>
+                    <tr><td>Anisotropic Filtering</td><td><code>16x</code></td><td>Nearly free performance cost, big visual improvement</td></tr>
+                    <tr><td>Shader Backend</td><td><code>GLSL</code></td><td>SPIR-V is faster but less stable on some titles</td></tr>
+                    <tr><td>Texture Recompression</td><td>Off</td><td>Enable only if VRAM is limited (&lt;4GB)</td></tr>
+                </tbody>
+            </table>
+
+            <h2>Step 5: System Settings</h2>
+            <p>Under <strong>Options &gt; Settings &gt; System</strong>, configure the following to ensure maximum game compatibility:</p>
+            <ul>
+                <li><strong>Region:</strong> Set to your region (Europe, Americas, or Japan)</li>
+                <li><strong>System Language:</strong> Match your preferred language</li>
+                <li><strong>Enable VSync:</strong> On (prevents screen tearing)</li>
+                <li><strong>Enable PPTC (Profiled Persistent Translation Cache):</strong> On — this dramatically reduces shader stutter over multiple sessions</li>
+                <li><strong>Enable LLE Services:</strong> Off by default; only enable specific services if a game requires it</li>
+            </ul>
+
+            <h2>Step 6: Controller Setup</h2>
+            <p>Ryujinx supports virtually any controller via SDL2. Go to <strong>Options &gt; Settings &gt; Input</strong> and configure your controller. For best results with Pro Controllers and Joy-Cons, use the <strong>Xbox</strong> or <strong>Nintendo Switch Pro Controller</strong> profile as a starting template.</p>
+            <p>For gyroscope motion controls (required for games like Splatoon and BotW), you'll need a compatible controller with motion sensors, or use <a href="https://github.com/v1993/linuxmotionemu">MotionSource</a> on desktop.</p>
+
+            <h2>Common Issues & Fixes</h2>
+            <h3>Game crashes at startup</h3>
+            <p>This is almost always a keys or firmware issue. Double-check that your <code>prod.keys</code> file is up to date (matching or newer than your game's required firmware) and that firmware is installed correctly.</p>
+            <h3>Severe shader stuttering</h3>
+            <p>Shader compilation stutter is expected on first launch of any game. Enable <strong>PPTC</strong> and run through the game for a full session. On subsequent launches the shaders are cached and stutter is greatly reduced.</p>
+            <h3>Low performance / FPS drops</h3>
+            <p>Try reducing the Resolution Scale to 1x (native), switching from Vulkan to OpenGL (or vice versa), and disabling any screen recording/overlay software that may be hooking the render pipeline.</p>
+
+            <hr>
+
+            <p>With this setup complete, you should have Ryujinx running your Switch library cleanly. Most first-party titles like <strong>Mario Odyssey</strong>, <strong>Breath of the Wild</strong>, and <strong>Mario Kart 8 Deluxe</strong> achieve near-perfect playability with these settings.</p>
+        </div>
+    </main>
+
+    <footer class="bg-dark-950 border-t border-dark-700">
+        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded">
+                <span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span>
+            </div>
+            <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2025 Modders Wanna Have Fun.</p>
+            <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const el = document.documentElement;
+            const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+            document.getElementById('readingProgress').style.width = pct + '%';
+        });
+    </script>
+</body>
+</html>

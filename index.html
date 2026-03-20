@@ -10,14 +10,11 @@
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4">
     <title>Modders Wanna Have Fun</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -25,231 +22,362 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         display: ['Orbitron', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        dark: {
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
-                        },
-                        brand: {
-                            orange: '#f39c12',
-                            blue: '#3498db',
-                            yellow: '#ffeb3b',
-                            red: '#e74c3c'
-                        }
+                        dark: { 950: '#080e1a', 900: '#0d1525', 800: '#1a2540', 700: '#243354', 600: '#2e4068' },
+                        brand: { orange: '#f39c12', blue: '#3b82f6', cyan: '#22d3ee', yellow: '#fbbf24', red: '#ef4444', green: '#10b981', purple: '#a855f7' }
                     }
                 }
             }
         }
     </script>
-
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #f39c12; }
-
-        /* Mobile menu transition */
-        #mobileMenu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        #mobileMenu.open {
-            max-height: 200px;
-        }
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        body{background-color:#080e1a;background-image:linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);background-size:40px 40px}
+        #mobileMenu{max-height:0;overflow:hidden;transition:max-height 0.3s ease}
+        #mobileMenu.open{max-height:320px}
+        .glow-orange{box-shadow:0 0 40px rgba(243,156,18,0.15)}
+        .text-glow{text-shadow:0 0 30px rgba(243,156,18,0.4)}
+        .featured-card{background:linear-gradient(135deg,#1a2540 0%,#0d1525 100%);border:1px solid rgba(59,130,246,0.2);position:relative;overflow:hidden}
+        .featured-card::before{content:'';position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(243,156,18,0.08) 0%,transparent 70%);pointer-events:none}
+        .article-card{background:linear-gradient(145deg,#1a2540,#0d1525);border:1px solid #243354;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+        .article-card:hover{border-color:rgba(243,156,18,0.5);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(243,156,18,0.08);transform:translateY(-4px)}
+        .badge-emulation{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+        .badge-optimization{background:rgba(243,156,18,0.15);color:#f59e0b;border:1px solid rgba(243,156,18,0.3)}
+        .badge-modding{background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
+        .badge-hardware{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+        .badge-guide{background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3)}
+        .filter-btn{transition:all 0.2s ease;border:1px solid #243354;color:#94a3b8;background:transparent;cursor:pointer}
+        .filter-btn:hover,.filter-btn.active{border-color:#f39c12;color:#f39c12;background:rgba(243,156,18,0.08)}
+        .stat-card{background:rgba(26,37,64,0.5);border:1px solid #243354;backdrop-filter:blur(10px)}
+        .img-overlay{background:linear-gradient(to top,rgba(13,21,37,0.9) 0%,rgba(13,21,37,0.3) 60%,transparent 100%)}
+        @keyframes borderPulse{0%,100%{border-color:rgba(243,156,18,0.3)}50%{border-color:rgba(243,156,18,0.7)}}
+        .pulse-border{animation:borderPulse 3s ease infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        .cursor{animation:blink 1s step-end infinite}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .article-card{animation:fadeUp 0.5s ease both}
+        #articleGrid .article-card:nth-child(1){animation-delay:0.05s}
+        #articleGrid .article-card:nth-child(2){animation-delay:0.1s}
+        #articleGrid .article-card:nth-child(3){animation-delay:0.15s}
+        #articleGrid .article-card:nth-child(4){animation-delay:0.2s}
+        #articleGrid .article-card:nth-child(5){animation-delay:0.25s}
+        .hero-scanlines{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none}
     </style>
 </head>
-<body class="bg-dark-900 text-gray-200 min-h-screen flex flex-col">
+<body class="text-gray-200 min-h-screen flex flex-col">
 
-    <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-dark-900/90 backdrop-blur-md border-b border-dark-700">
+    <nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-12 h-12 object-contain">
-                <span class="font-display font-bold text-xl tracking-wider text-white">MWHF</span>
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-10 h-10 object-contain rounded-lg">
+                <div>
+                    <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+                    <div class="text-xs text-gray-500 font-mono tracking-wider -mt-1">modding hub</div>
+                </div>
             </div>
-            <div class="hidden md:flex gap-6 text-sm font-medium">
-                <a href="#" class="hover:text-brand-orange transition-colors">Home</a>
-                <a href="#articles" class="hover:text-brand-orange transition-colors">Guides</a>
-                <a href="#" class="hover:text-brand-orange transition-colors">Tools</a>
-                <a href="#" class="hover:text-brand-orange transition-colors">About</a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#" class="text-brand-orange font-display text-xs tracking-wider">HOME</a>
+                <a href="#articles" class="hover:text-brand-orange transition-colors text-gray-400 font-display text-xs tracking-wider">GUIDES</a>
+                <a href="#" class="hover:text-brand-orange transition-colors text-gray-400 font-display text-xs tracking-wider">TOOLS</a>
+                <a href="#" class="hover:text-brand-orange transition-colors text-gray-400 font-display text-xs tracking-wider">ABOUT</a>
+                <a href="#" class="bg-brand-orange/10 border border-brand-orange/40 text-brand-orange hover:bg-brand-orange hover:text-dark-950 font-display text-xs tracking-wider px-4 py-2 rounded transition-all">DISCORD</a>
             </div>
-            <button id="mobileMenuBtn" class="md:hidden text-white p-1" aria-label="Toggle menu">
+            <button id="mobileMenuBtn" class="md:hidden text-white p-1">
                 <i data-lucide="menu" id="menuIcon"></i>
             </button>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="md:hidden border-t border-dark-700 bg-dark-900/95">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium">
-                <a href="#" class="hover:text-brand-orange transition-colors">Home</a>
-                <a href="#articles" class="hover:text-brand-orange transition-colors" id="mobileArticlesLink">Guides</a>
-                <a href="#" class="hover:text-brand-orange transition-colors">Tools</a>
-                <a href="#" class="hover:text-brand-orange transition-colors">About</a>
+        <div id="mobileMenu" class="md:hidden border-t border-dark-700 bg-dark-950/98">
+            <div class="container mx-auto px-6 py-5 flex flex-col gap-4 text-sm font-display tracking-wider">
+                <a href="#" class="text-brand-orange">HOME</a>
+                <a href="#articles" id="mobileArticlesLink" class="hover:text-brand-orange transition-colors text-gray-400">GUIDES</a>
+                <a href="#" class="hover:text-brand-orange transition-colors text-gray-400">TOOLS</a>
+                <a href="#" class="hover:text-brand-orange transition-colors text-gray-400">ABOUT</a>
+                <a href="#" class="hover:text-brand-orange transition-colors text-gray-400">DISCORD</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden py-20 lg:py-32">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl -z-10"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl -z-10"></div>
-
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="font-display text-5xl md:text-7xl font-black mb-6 text-white tracking-tight">
-                MODDERS <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-brand-yellow">WANNA</span> HAVE FUN
+    <header class="relative overflow-hidden py-24 lg:py-36">
+        <div class="absolute inset-0 hero-scanlines z-10 opacity-40"></div>
+        <div class="absolute top-10 left-1/4 w-96 h-96 bg-brand-orange/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-blue/8 rounded-full blur-3xl"></div>
+        <div class="container mx-auto px-6 text-center relative z-20">
+            <div class="inline-flex items-center gap-2 bg-dark-800/80 border border-dark-600 rounded-full px-4 py-1.5 mb-8 font-mono text-xs text-brand-cyan backdrop-blur">
+                <span class="w-2 h-2 bg-brand-green rounded-full inline-block animate-pulse"></span>
+                <span>v2.0 — now with 5 guides</span>
+                <span class="cursor text-brand-orange">&#9608;</span>
+            </div>
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-black mb-6 text-white tracking-tight leading-none">
+                MODDERS<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-brand-yellow to-brand-orange text-glow">WANNA HAVE</span><br>FUN
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-                The ultimate hub for emulation guides, hardware optimization, and pushing your games beyond their limits.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#articles" class="bg-brand-orange hover:bg-yellow-500 text-dark-900 font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-orange-500/20">
-                    Latest Guides
-                </a>
-                <a href="#" class="border border-dark-700 hover:border-brand-blue hover:text-brand-blue bg-dark-800 text-white font-bold py-3 px-8 rounded-full transition-all">
-                    Submit a Mod
-                </a>
+            <p class="text-lg text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">Deep-dive guides on emulation, hardware optimization, and pushing your games beyond their limits.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+                <a href="#articles" class="bg-brand-orange hover:bg-brand-yellow text-dark-950 font-bold font-display text-sm tracking-wider py-3 px-8 rounded transition-all transform hover:scale-105 shadow-lg shadow-orange-500/20">BROWSE GUIDES</a>
+                <a href="#" class="border border-dark-600 hover:border-brand-blue hover:text-brand-blue bg-dark-800/60 text-gray-300 font-bold font-display text-sm tracking-wider py-3 px-8 rounded transition-all">SUBMIT A MOD</a>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                <div class="stat-card rounded-lg px-5 py-3 flex items-center gap-3">
+                    <i data-lucide="file-text" class="w-4 h-4 text-brand-orange"></i>
+                    <div class="text-left"><div class="font-display text-lg text-white font-bold">5</div><div class="text-xs text-gray-500">Guides</div></div>
+                </div>
+                <div class="stat-card rounded-lg px-5 py-3 flex items-center gap-3">
+                    <i data-lucide="cpu" class="w-4 h-4 text-brand-cyan"></i>
+                    <div class="text-left"><div class="font-display text-lg text-white font-bold">3</div><div class="text-xs text-gray-500">Emulators</div></div>
+                </div>
+                <div class="stat-card rounded-lg px-5 py-3 flex items-center gap-3">
+                    <i data-lucide="zap" class="w-4 h-4 text-brand-yellow"></i>
+                    <div class="text-left"><div class="font-display text-lg text-white font-bold">100%</div><div class="text-xs text-gray-500">Free</div></div>
+                </div>
+                <div class="stat-card rounded-lg px-5 py-3 flex items-center gap-3">
+                    <i data-lucide="users" class="w-4 h-4 text-brand-purple"></i>
+                    <div class="text-left"><div class="font-display text-lg text-white font-bold">Community</div><div class="text-xs text-gray-500">Driven</div></div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-6 py-12" id="articles">
-        
-        <!-- Search & Filter -->
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div>
-                <h2 class="font-display text-3xl text-white mb-2">Latest Articles</h2>
-                <div class="h-1 w-20 bg-brand-orange rounded"></div>
+    <section class="container mx-auto px-6 mb-16">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-2 h-2 bg-brand-orange rounded-full animate-pulse"></div>
+            <span class="font-display text-xs tracking-widest text-brand-orange">FEATURED GUIDE</span>
+        </div>
+        <a href="articles/587684.html" class="featured-card rounded-2xl flex flex-col lg:flex-row overflow-hidden glow-orange group block hover:scale-[1.01] transition-transform duration-300">
+            <div class="relative lg:w-1/2 h-64 lg:h-auto overflow-hidden">
+                <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                <div class="img-overlay absolute inset-0"></div>
+                <div class="absolute top-4 left-4 flex gap-2">
+                    <span class="badge-optimization text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">OPTIMIZATION</span>
+                    <span class="bg-brand-orange text-dark-950 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">FEATURED</span>
+                </div>
             </div>
-            <div class="relative w-full md:w-auto">
-                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5"></i>
-                <input type="text" id="searchInput" placeholder="Find a guide..." 
-                    class="w-full md:w-80 bg-dark-800 border border-dark-700 text-white pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
+            <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                <h2 class="font-display text-2xl lg:text-3xl text-white mb-4 leading-tight group-hover:text-brand-orange transition-colors">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</h2>
+                <p class="text-gray-400 text-base leading-relaxed mb-6">Get the most out of your Ryzen 5 3600. We benchmark Vulkan vs OpenGL, tweak the shader cache, and dial in every setting for locked 60fps performance.</p>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-600">
+                        <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">Author</div></div>
+                    </div>
+                    <span class="text-xs text-gray-500 flex items-center gap-1.5 bg-dark-800/60 border border-dark-600 px-3 py-1.5 rounded-full">
+                        <i data-lucide="clock" class="w-3 h-3"></i> 8 min read
+                    </span>
+                </div>
+            </div>
+        </a>
+    </section>
+
+    <main class="flex-grow container mx-auto px-6 pb-20" id="articles">
+        <div class="mb-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+                <div>
+                    <h2 class="font-display text-3xl text-white mb-2 tracking-wider">ALL GUIDES</h2>
+                    <div class="h-0.5 w-16 bg-gradient-to-r from-brand-orange to-transparent rounded"></div>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4"></i>
+                    <input type="text" id="searchInput" placeholder="Search guides..."
+                        class="w-full bg-dark-800/80 border border-dark-600 text-white text-sm pl-9 pr-4 py-2.5 rounded-lg focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 font-mono">
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2" id="filterBtns">
+                <button class="filter-btn active font-display text-xs tracking-wider px-4 py-2 rounded-full" data-cat="all">ALL</button>
+                <button class="filter-btn font-display text-xs tracking-wider px-4 py-2 rounded-full" data-cat="emulation">EMULATION</button>
+                <button class="filter-btn font-display text-xs tracking-wider px-4 py-2 rounded-full" data-cat="optimization">OPTIMIZATION</button>
+                <button class="filter-btn font-display text-xs tracking-wider px-4 py-2 rounded-full" data-cat="modding">MODDING</button>
+                <button class="filter-btn font-display text-xs tracking-wider px-4 py-2 rounded-full" data-cat="guide">GUIDE</button>
             </div>
         </div>
 
-        <!-- Article Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articleGrid">
-            
-            <!-- Article Card 1 -->
-            <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 hover:-translate-y-1 flex flex-col" data-title="How to Import the Wii U's vWii NAND into Dolphin Emulator" data-desc="A comprehensive step-by-step guide to transferring your NAND dump for a seamless emulation experience.">
-                <div class="relative overflow-hidden h-48">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="articleGrid">
+
+            <article class="article-card rounded-xl overflow-hidden flex flex-col" data-title="How to Import the Wii U's vWii NAND into Dolphin Emulator" data-desc="A comprehensive step-by-step guide to transferring your NAND dump for a seamless emulation experience." data-cat="emulation">
+                <div class="relative overflow-hidden h-44">
                     <a href="articles/475837.html" class="block w-full h-full">
-                        <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="Wii U NAND" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="Dolphin NAND" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
                     </a>
-                    <div class="absolute top-3 left-3 bg-brand-blue text-white text-xs font-bold px-2 py-1 rounded shadow-md pointer-events-none">EMULATION</div>
+                    <div class="img-overlay absolute inset-0 pointer-events-none"></div>
+                    <span class="absolute top-3 left-3 badge-emulation text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">EMULATION</span>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="font-display text-xl text-white mb-3 leading-tight group-hover:text-brand-orange transition-colors">
-                        <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin Emulator</a>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-white mb-2 leading-tight hover:text-brand-orange transition-colors">
+                        <a href="articles/475837.html">How to Import the Wii U's vWii NAND into Dolphin</a>
                     </h3>
-                    <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">
-                        A comprehensive step-by-step guide to transferring your NAND dump for a seamless emulation experience.
-                    </p>
+                    <p class="text-gray-500 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">Step-by-step guide to transferring your NAND dump for seamless Wii emulation inside Dolphin.</p>
                     <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
-                        <div class="flex items-center gap-3">
-                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-8 h-8 rounded-full border border-dark-700">
-                            <span class="text-sm font-medium text-gray-300">Aarontendo</span>
+                        <div class="flex items-center gap-2">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-7 h-7 rounded-full border border-dark-600">
+                            <span class="text-xs font-medium text-gray-400">Aarontendo</span>
                         </div>
-                        <span class="text-xs text-gray-500 flex items-center gap-1">
-                            <i data-lucide="clock" class="w-3 h-3"></i> 5 min read
-                        </span>
+                        <span class="text-xs text-gray-600 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min</span>
                     </div>
                 </div>
             </article>
 
-            <!-- Article Card 2 -->
-            <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 hover:border-brand-orange/50 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-orange/10 hover:-translate-y-1 flex flex-col" data-title="Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600" data-desc="Get the most out of your Ryzen 5 3600. We benchmark Vulkan vs OpenGL and tweak the shader cache.">
-                <div class="relative overflow-hidden h-48">
+            <article class="article-card rounded-xl overflow-hidden flex flex-col" data-title="Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600" data-desc="Get the most out of your Ryzen 5 3600. We benchmark Vulkan vs OpenGL and tweak the shader cache." data-cat="optimization">
+                <div class="relative overflow-hidden h-44">
                     <a href="articles/587684.html" class="block w-full h-full">
-                        <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="Cemu Settings" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
                     </a>
-                    <div class="absolute top-3 left-3 bg-brand-orange text-dark-900 text-xs font-bold px-2 py-1 rounded shadow-md pointer-events-none">OPTIMIZATION</div>
+                    <div class="img-overlay absolute inset-0 pointer-events-none"></div>
+                    <span class="absolute top-3 left-3 badge-optimization text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">OPTIMIZATION</span>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="font-display text-xl text-white mb-3 leading-tight group-hover:text-brand-orange transition-colors">
-                        <a href="articles/587684.html">Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</a>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-white mb-2 leading-tight hover:text-brand-orange transition-colors">
+                        <a href="articles/587684.html">Best Settings for Cemu v2.1 on Ryzen 5 3600</a>
                     </h3>
-                    <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">
-                        Get the most out of your Ryzen 5 3600. We benchmark Vulkan vs OpenGL and tweak the shader cache.
-                    </p>
+                    <p class="text-gray-500 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">Benchmark Vulkan vs OpenGL, tweak the shader cache, and unlock silky-smooth 60fps Wii U emulation.</p>
                     <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
-                        <div class="flex items-center gap-3">
-                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-8 h-8 rounded-full border border-dark-700">
-                            <span class="text-sm font-medium text-gray-300">Aarontendo</span>
+                        <div class="flex items-center gap-2">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-7 h-7 rounded-full border border-dark-600">
+                            <span class="text-xs font-medium text-gray-400">Aarontendo</span>
                         </div>
-                        <span class="text-xs text-gray-500 flex items-center gap-1">
-                            <i data-lucide="clock" class="w-3 h-3"></i> 8 min read
-                        </span>
+                        <span class="text-xs text-gray-600 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 8 min</span>
                     </div>
                 </div>
             </article>
 
-            <!-- Placeholder Card -->
-            <article class="group bg-dark-800 rounded-xl overflow-hidden border border-dark-700 border-dashed hover:border-solid hover:border-brand-orange/50 transition-all duration-300 flex flex-col opacity-75" data-placeholder="true">
-                <div class="h-48 bg-dark-700 flex items-center justify-center text-gray-500">
-                    <i data-lucide="image" class="w-12 h-12 opacity-20"></i>
+            <article class="article-card rounded-xl overflow-hidden flex flex-col" data-title="Complete Ryujinx Setup Guide Switch Emulation in 2025" data-desc="Set up Ryujinx from scratch, install firmware and prod.keys, configure system settings, and get your Switch games running at peak performance." data-cat="emulation">
+                <div class="relative overflow-hidden h-44">
+                    <a href="articles/391028.html" class="block w-full h-full">
+                        <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="Ryujinx Guide" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" style="filter:hue-rotate(200deg) saturate(0.8)">
+                    </a>
+                    <div class="img-overlay absolute inset-0 pointer-events-none"></div>
+                    <span class="absolute top-3 left-3 badge-emulation text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">EMULATION</span>
+                    <span class="absolute top-3 right-3 bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">NEW</span>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="font-display text-xl text-gray-500 mb-3 leading-tight">
-                        More content coming soon...
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-white mb-2 leading-tight hover:text-brand-orange transition-colors">
+                        <a href="articles/391028.html">Complete Ryujinx Setup Guide: Switch Emulation in 2025</a>
                     </h3>
-                    <p class="text-gray-600 text-sm mb-6 flex-grow">
-                        Stay tuned for more guides on Switch emulation and PC hardware tweaks.
-                    </p>
+                    <p class="text-gray-500 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">Install firmware, prod.keys, and dial in every graphics setting for peak Nintendo Switch performance.</p>
                     <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
-                        <div class="h-8 w-24 bg-dark-700 rounded animate-pulse"></div>
+                        <div class="flex items-center gap-2">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-7 h-7 rounded-full border border-dark-600">
+                            <span class="text-xs font-medium text-gray-400">Aarontendo</span>
+                        </div>
+                        <span class="text-xs text-gray-600 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 12 min</span>
                     </div>
                 </div>
             </article>
 
-        </div>
-        
-        <!-- No Results -->
-        <div id="noResults" class="hidden text-center py-20">
-            <i data-lucide="ghost" class="w-16 h-16 text-gray-600 mx-auto mb-4"></i>
-            <h3 class="text-xl font-display text-gray-400">No guides found</h3>
-            <p class="text-gray-600">Try searching for 'Dolphin' or 'Cemu'</p>
+            <article class="article-card rounded-xl overflow-hidden flex flex-col" data-title="PCSX2 1.7 Nightly Ultimate PS2 Emulator Configuration Guide" data-desc="Configure PCSX2 new Qt interface, enable upscaling to 4K, fix common graphical glitches, and get the best compatibility settings for your PS2 library." data-cat="emulation">
+                <div class="relative overflow-hidden h-44">
+                    <a href="articles/204819.html" class="block w-full h-full">
+                        <img src="https://i.ibb.co/bsfCgFf/Copy-of-8b8b8b.png" alt="PCSX2 Guide" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" style="filter:hue-rotate(120deg) saturate(0.7)">
+                    </a>
+                    <div class="img-overlay absolute inset-0 pointer-events-none"></div>
+                    <span class="absolute top-3 left-3 badge-emulation text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">EMULATION</span>
+                    <span class="absolute top-3 right-3 bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">NEW</span>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-white mb-2 leading-tight hover:text-brand-orange transition-colors">
+                        <a href="articles/204819.html">PCSX2 1.7 Nightly — Ultimate PS2 Configuration Guide</a>
+                    </h3>
+                    <p class="text-gray-500 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">Enable 4K upscaling, fix graphical glitches, and maximize compatibility for your entire PS2 library.</p>
+                    <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
+                        <div class="flex items-center gap-2">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-7 h-7 rounded-full border border-dark-600">
+                            <span class="text-xs font-medium text-gray-400">Aarontendo</span>
+                        </div>
+                        <span class="text-xs text-gray-600 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 10 min</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card rounded-xl overflow-hidden flex flex-col" data-title="RetroArch Mega Guide Shaders Overlays and Perfect CRT Filters" data-desc="Master RetroArch from the ground up. Set up the best cores for each system, apply authentic CRT shaders, build a beautiful overlay library, and sync with a cloud save." data-cat="guide">
+                <div class="relative overflow-hidden h-44">
+                    <a href="articles/761345.html" class="block w-full h-full">
+                        <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="RetroArch Guide" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" style="filter:hue-rotate(300deg) saturate(0.6)">
+                    </a>
+                    <div class="img-overlay absolute inset-0 pointer-events-none"></div>
+                    <span class="absolute top-3 left-3 badge-guide text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">GUIDE</span>
+                    <span class="absolute top-3 right-3 bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-2.5 py-1 rounded-full pointer-events-none">NEW</span>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-white mb-2 leading-tight hover:text-brand-orange transition-colors">
+                        <a href="articles/761345.html">RetroArch Mega Guide: Shaders, Overlays &amp; CRT Filters</a>
+                    </h3>
+                    <p class="text-gray-500 text-sm mb-5 line-clamp-2 flex-grow leading-relaxed">Master the best cores, apply authentic CRT scanline shaders, and build a beautiful overlay library.</p>
+                    <div class="flex items-center justify-between border-t border-dark-700 pt-4 mt-auto">
+                        <div class="flex items-center gap-2">
+                            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-7 h-7 rounded-full border border-dark-600">
+                            <span class="text-xs font-medium text-gray-400">Aarontendo</span>
+                        </div>
+                        <span class="text-xs text-gray-600 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 15 min</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card rounded-xl overflow-hidden flex flex-col opacity-40 border-dashed pulse-border" data-placeholder="true">
+                <div class="h-44 bg-dark-800 flex items-center justify-center">
+                    <i data-lucide="plus-circle" class="w-10 h-10 text-dark-600"></i>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="font-display text-sm text-gray-600 mb-2 leading-tight">More coming soon...</h3>
+                    <p class="text-gray-700 text-xs flex-grow leading-relaxed">Watch for upcoming guides on PS3 emulation, custom firmware, and PC hardware tweaks.</p>
+                    <div class="border-t border-dark-700 pt-4 mt-4"><div class="h-5 w-20 bg-dark-700 rounded animate-pulse"></div></div>
+                </div>
+            </article>
+
         </div>
 
+        <div id="noResults" class="hidden text-center py-24">
+            <i data-lucide="search-x" class="w-14 h-14 text-dark-600 mx-auto mb-4"></i>
+            <h3 class="text-lg font-display text-gray-500 tracking-wider">NO GUIDES FOUND</h3>
+            <p class="text-gray-600 text-sm mt-2 font-mono">Try searching "Dolphin", "Cemu", or "RetroArch"</p>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark-900 border-t border-dark-700 mt-auto">
+    <footer class="bg-dark-950 border-t border-dark-700">
         <div class="container mx-auto px-6 py-12">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <span class="font-display font-bold text-xl text-white tracking-wider">MWHF</span>
-                    <p class="text-gray-500 text-sm mt-2">&copy; 2024&ndash;2025 Modders Wanna Have Fun.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-8 h-8 rounded">
+                        <span class="font-display font-bold text-base text-white tracking-widest">MWHF</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">The ultimate hub for emulation guides, hardware optimization, and game modding knowledge.</p>
                 </div>
-                <div class="flex gap-6">
-                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="twitter"></i></a>
-                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="github"></i></a>
-                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="youtube"></i></a>
+                <div>
+                    <h4 class="font-display text-xs tracking-widest text-gray-500 mb-4">QUICK LINKS</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="#" class="text-gray-500 hover:text-brand-orange text-sm transition-colors">Home</a>
+                        <a href="#articles" class="text-gray-500 hover:text-brand-orange text-sm transition-colors">All Guides</a>
+                        <a href="#" class="text-gray-500 hover:text-brand-orange text-sm transition-colors">Submit a Guide</a>
+                        <a href="#" class="text-gray-500 hover:text-brand-orange text-sm transition-colors">About</a>
+                    </div>
                 </div>
+                <div>
+                    <h4 class="font-display text-xs tracking-widest text-gray-500 mb-4">COMMUNITY</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-9 h-9 bg-dark-800 border border-dark-600 rounded-lg flex items-center justify-center text-gray-500 hover:text-brand-orange hover:border-brand-orange transition-all"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-9 h-9 bg-dark-800 border border-dark-600 rounded-lg flex items-center justify-center text-gray-500 hover:text-brand-orange hover:border-brand-orange transition-all"><i data-lucide="github" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-9 h-9 bg-dark-800 border border-dark-600 rounded-lg flex items-center justify-center text-gray-500 hover:text-brand-orange hover:border-brand-orange transition-all"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-dark-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+                <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2025 Modders Wanna Have Fun. All rights reserved.</p>
+                <p class="text-gray-700 text-xs font-mono">built with love for the community</p>
             </div>
         </div>
     </footer>
 
     <script>
         lucide.createIcons();
-
-        // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const menuIcon = document.getElementById('menuIcon');
         let menuOpen = false;
-
         mobileMenuBtn.addEventListener('click', () => {
             menuOpen = !menuOpen;
             mobileMenu.classList.toggle('open', menuOpen);
             menuIcon.setAttribute('data-lucide', menuOpen ? 'x' : 'menu');
             lucide.createIcons();
         });
-
-        // Close mobile menu when a link is clicked
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 menuOpen = false;
@@ -258,33 +386,39 @@
                 lucide.createIcons();
             });
         });
-
-        // Search — only searches real articles (skips placeholder cards)
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let activeCategory = 'all';
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.dataset.cat;
+                applyFilters();
+            });
+        });
         const searchInput = document.getElementById('searchInput');
         const articleGrid = document.getElementById('articleGrid');
         const noResults = document.getElementById('noResults');
-
-        searchInput.addEventListener('input', () => {
+        searchInput.addEventListener('input', applyFilters);
+        function applyFilters() {
             const term = searchInput.value.toLowerCase().trim();
             let hasResults = false;
-
             Array.from(articleGrid.querySelectorAll('article')).forEach(article => {
-                // Skip placeholder cards
                 if (article.dataset.placeholder) {
-                    article.style.display = term ? 'none' : '';
+                    article.style.display = (term || activeCategory !== 'all') ? 'none' : '';
                     return;
                 }
-
                 const title = (article.dataset.title || '').toLowerCase();
                 const desc  = (article.dataset.desc  || '').toLowerCase();
-                const match = !term || title.includes(term) || desc.includes(term);
-
-                article.style.display = match ? 'flex' : 'none';
-                if (match) hasResults = true;
+                const cat   = (article.dataset.cat   || '').toLowerCase();
+                const matchSearch = !term || title.includes(term) || desc.includes(term);
+                const matchCat    = activeCategory === 'all' || cat === activeCategory;
+                const show        = matchSearch && matchCat;
+                article.style.display = show ? 'flex' : 'none';
+                if (show) hasResults = true;
             });
-
-            noResults.classList.toggle('hidden', hasResults || !term);
-        });
+            noResults.classList.toggle('hidden', hasResults || (!term && activeCategory === 'all'));
+        }
     </script>
 </body>
 </html>
