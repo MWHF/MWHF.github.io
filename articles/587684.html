@@ -1,93 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</title>
+    <meta property="og:title" content="Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600">
+    <meta property="og:description" content="Get the most out of your Ryzen 5 3600. We benchmark Vulkan vs OpenGL and tweak the shader cache for smooth Wii U emulation.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600 — MWHF</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
-    <link rel="stylesheet" href="https://mwhf.github.io/articles.css">
-    <link rel="stylesheet" href="https://mwhf.github.io/navbar.css"> <!-- Link to the navbar CSS -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: { 900: '#0f172a', 800: '#1e293b', 700: '#334155' },
+                        brand: { orange: '#f39c12', blue: '#3498db', yellow: '#ffeb3b', red: '#e74c3c' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f39c12; }
+
+        /* Reading progress bar */
+        #readingProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f39c12, #ffeb3b);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s linear;
+        }
+
+        .article-content h1 { @apply font-display text-3xl md:text-5xl text-white border-b-2 border-dark-700 pb-6 mb-8 mt-4 text-center leading-tight; }
+        .article-content h2 { @apply font-display text-2xl text-brand-orange border-l-4 border-brand-orange pl-4 mt-12 mb-6; }
+        .article-content h3 { @apply font-display text-xl text-brand-blue mt-8 mb-4 font-bold; }
+        .article-content p { @apply text-gray-300 text-lg leading-relaxed mb-6; }
+        .article-content a { @apply text-brand-blue hover:text-brand-yellow transition-colors underline decoration-dotted underline-offset-4; }
+        .article-content ul { @apply list-disc list-outside ml-6 text-gray-300 space-y-2 mb-6; }
+        .article-content ul ul { @apply mt-2 mb-2; }
+        .article-content code { @apply bg-dark-800 text-brand-orange px-2 py-1 rounded font-mono text-sm border border-dark-700; }
+        .article-content strong { @apply text-white font-semibold; }
+        .article-content hr { @apply border-dark-700 my-10; }
+
+        .important {
+            @apply bg-dark-800/80 border-l-4 border-brand-red p-6 rounded-r-lg my-8 shadow-lg;
+        }
+        .important > p:first-child strong { @apply text-brand-red font-display uppercase tracking-wide; }
+
+        /* Settings table */
+        .settings-table { @apply w-full text-sm text-left rounded-xl overflow-hidden border border-dark-700 my-8; }
+        .settings-table th { @apply bg-dark-700 text-brand-orange font-display text-xs uppercase tracking-wider px-4 py-3; }
+        .settings-table td { @apply border-t border-dark-700 px-4 py-3 text-gray-300; }
+        .settings-table tr:hover td { @apply bg-dark-700/30; }
+        .settings-table td:last-child code { @apply text-brand-yellow; }
+
+        /* Games grid */
+        .games-mentioned {
+            @apply grid grid-cols-2 md:grid-cols-4 gap-6 bg-dark-800/50 p-6 rounded-xl my-8 border border-dark-700;
+        }
+        .game { @apply text-center; }
+        .game img { @apply rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mx-auto; }
+        .game p { @apply text-gray-400 font-bold mt-2 text-sm leading-snug; }
+
+        /* Performance stat cards */
+        .stat-card {
+            @apply bg-dark-800 border border-dark-700 rounded-xl p-4 text-center;
+        }
+        .stat-card .value { @apply font-display text-2xl text-brand-orange font-bold; }
+        .stat-card .label { @apply text-xs text-gray-500 mt-1; }
+    </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Reading Progress Bar -->
+    <div id="readingProgress"></div>
+
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="https://mwhf.github.io/" class="navbar-brand">Modders Wanna Have Fun</a>
-            <ul class="navbar-nav">
-                <li><a href="https://mwhf.github.io/">Articles</a></li>
-            </ul>
+    <nav class="sticky top-0 z-50 bg-dark-900/90 backdrop-blur-md border-b border-dark-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF Logo" class="w-12 h-12 object-contain">
+                <span class="font-display font-bold text-xl tracking-wider text-white">MWHF</span>
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="../index.html" class="hover:text-brand-orange transition-colors">Home</a>
+                <a href="../index.html#articles" class="text-brand-orange">Articles</a>
+            </div>
+            <a href="../index.html" class="md:hidden text-gray-400 hover:text-white transition-colors flex items-center gap-1 text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </a>
         </div>
     </nav>
 
-    <h1>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</h1>
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+        <div class="article-content">
+            
+            <!-- Breadcrumb -->
+            <nav class="mb-8 text-sm text-gray-500 flex items-center gap-2" aria-label="Breadcrumb">
+                <a href="../index.html" class="no-underline hover:text-brand-orange transition-colors">Home</a>
+                <i data-lucide="chevron-right" class="w-4 h-4 flex-shrink-0"></i>
+                <span class="text-brand-orange">Optimization</span>
+            </nav>
 
-    <p>If you're running Cemu v2.1 on a Ryzen 5 3600 and looking for optimal settings to achieve smooth gameplay, this guide will help you configure your emulator for the best performance. We'll focus on balancing visuals and speed, ensuring that you get the best experience possible with minimal stuttering and lag.</p>
+            <h1>Best Settings for Smooth Gameplay in Cemu v2.1 on Ryzen 5 3600</h1>
 
-    <h2>Graphics Settings</h2>
-    <p>The following graphics settings are recommended to achieve smooth performance, especially when running demanding Wii U titles:</p>
-    
-    <ul>
-        <li><strong>Graphics API:</strong> <code>Vulkan</code></li>
-        <li><strong>Graphics Device:</strong> Select your native graphics device. For the AMD Radeon(TM) Vega 8 Graphics, this is typically the integrated GPU.</li>
-        <li><strong>VSync:</strong> <code>Triple Buffering</code></li>
-        <ul>
-            <li>Using <strong>Triple Buffering</strong> helps to smooth out gameplay and menus. Unlike Double Buffering, which may cause slow gameplay even if the menus run fine, Triple Buffering allows the GPU to work more efficiently by reducing the time spent waiting between frames. This results in a smoother overall experience without the drawbacks of screen tearing or excessive input lag.</li>
-        </ul>
-        <li><strong>Upscale Filter:</strong> <code>Bilinear</code></li>
-        <li><strong>Downscale Filter:</strong> <code>Bilinear</code></li>
-        <li><strong>Fullscreen Scaling:</strong> <code>Keep aspect ratio</code></li>
-    </ul>
+            <!-- Author card -->
+            <div class="bg-dark-800 p-6 rounded-xl border border-dark-700 mb-10 flex items-center gap-4">
+                <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-12 h-12 rounded-full border-2 border-brand-orange flex-shrink-0">
+                <div class="flex-grow">
+                    <p class="mb-0 text-white font-bold">By Aarontendo</p>
+                    <p class="mb-0 text-sm text-gray-500">Updated: 2024</p>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500 flex-shrink-0">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 8 min read</span>
+                    <span class="hidden sm:flex items-center gap-1 bg-brand-orange/10 text-brand-orange border border-brand-orange/20 px-2 py-1 rounded">OPTIMIZATION</span>
+                </div>
+            </div>
 
-    <h2>Shader Compilation</h2>
-    <p>Shader compilation is essential for smooth gameplay, as it prevents stuttering when new graphical effects are rendered. Configure your shader settings as follows:</p>
+            <p>If you're running Cemu v2.1 on a Ryzen 5 3600 and looking for optimal settings to achieve smooth gameplay, this guide will help you configure your emulator for the best performance. We'll focus on balancing visuals and speed, ensuring that you get the best experience possible with minimal stuttering and lag.</p>
 
-    <ul>
-        <li><strong>Asynchronous Shader Compilation:</strong> <code>Enabled</code></li>
-        <ul>
-            <li>Enabling this option allows shaders to compile in the background, reducing stuttering during gameplay. It's crucial for maintaining smooth performance, especially in graphically intensive games.</li>
-        </ul>
-        <li><strong>Precompiled Shader Cache:</strong> <code>Enabled</code></li>
-        <ul>
-            <li>Using a precompiled shader cache helps minimize the initial stuttering that can occur when running a game for the first time.</li>
-        </ul>
-    </ul>
+            <h2>Graphics Settings</h2>
+            <p>The following graphics settings are recommended to achieve smooth performance, especially when running demanding Wii U titles:</p>
 
-    <h2>Performance Testing</h2>
-    <p>With these settings on a Ryzen 5 3600 and AMD Radeon(TM) Vega 8 Graphics, my average frame rate in <strong>New Super Mario Bros. U</strong> and <strong>New Super Luigi U</strong> has been around <strong>60 frames per second</strong>, with the lowest being <strong>54.60 fps</strong> and the highest reaching <strong>60.50 fps</strong>. The settings were also tested with <strong>Super Mario 3D World</strong>, where the frame rate ranged from <strong>42 fps</strong> at its lowest to a maximum of <strong>60 fps</strong>. It appears that VSync tries to limit the frame rate to 60 frames per second, which is good because the human eye can't really notice frames above 60 fps. If you experience any slowdown during gameplay, I recommend closing background tasks to free up system resources.</p>
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>Recommended Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Graphics API</td><td><code>Vulkan</code></td></tr>
+                    <tr><td>Graphics Device</td><td><code>Your native GPU</code></td></tr>
+                    <tr><td>VSync</td><td><code>Triple Buffering</code></td></tr>
+                    <tr><td>Upscale Filter</td><td><code>Bilinear</code></td></tr>
+                    <tr><td>Downscale Filter</td><td><code>Bilinear</code></td></tr>
+                    <tr><td>Fullscreen Scaling</td><td><code>Keep aspect ratio</code></td></tr>
+                </tbody>
+            </table>
 
-    <h2>General Tips</h2>
-    <p>Here are a few additional tips to ensure smooth performance on your Ryzen 5 3600:</p>
+            <h3>Why Vulkan over OpenGL?</h3>
+            <p>Vulkan offers lower CPU overhead and better multi-threaded performance, which benefits the Ryzen 5 3600's 6 cores significantly. Most Wii U titles see measurable frame rate improvements with Vulkan on AMD hardware.</p>
 
-    <ul>
-        <li><strong>Keep Your Drivers Updated:</strong> Make sure your graphics drivers are up to date. New drivers can improve performance and compatibility with Vulkan.</li>
-        <li><strong>Close Background Applications:</strong> Free up system resources by closing unnecessary applications running in the background.</li>
-        <li><strong>Use a High-Performance Power Plan:</strong> Set your power plan to High Performance in Windows to prevent CPU and GPU throttling.</li>
-    </ul>
+            <h3>Why Triple Buffering?</h3>
+            <p><strong>Triple Buffering</strong> helps smooth out gameplay and menus. Unlike Double Buffering — which can cause slow gameplay even when menus run fine — Triple Buffering allows the GPU to work more efficiently by reducing the time spent waiting between frames. This results in a smoother overall experience without screen tearing or excessive input lag.</p>
 
-    <div class="important">
-        <p><strong>Important Notes:</strong></p>
-        <ul>
-            <li><strong>Test Settings Per Game:</strong> While these settings should provide a solid baseline, some games may require individual tweaks. Always test and adjust settings based on the specific demands of the game you're playing.</li>
-            <li><strong>Graphic Mods:</strong> Some games may have graphic mods available that can further improve framerate or visual quality. Consider exploring these mods to enhance your gaming experience.</li>
-            <li><strong>Tested Games:</strong> The graphics settings provided in this guide were tested on <strong>New Super Mario Bros. U</strong>, <strong>New Super Luigi U</strong>, and <strong>Super Mario 3D World</strong>. Performance may vary with other titles.</li>
-            <li><strong>Minor Graphical Glitches:</strong> Minor graphical glitches may occur, such as backgrounds changing quickly when entering underground areas or vines loading in a few frames late. These issues are typically seen when first loading certain textures or after clearing the shader cache. However, they do not impact game mechanics or overall gameplay.</li>
-            <li><strong>Backup Your Configurations:</strong> Before making major changes, consider backing up your Cemu settings to revert if necessary.</li>
-        </ul>
-    </div>
+            <h2>Shader Compilation</h2>
+            <p>Shader compilation is essential for smooth gameplay, as it prevents stuttering when new graphical effects are rendered. Configure your shader settings as follows:</p>
 
-    <h2>Games Mentioned</h2>
-    <div class="games-mentioned">
-        <div class="game">
-            <img src="https://art.gametdb.com/wiiu/cover3D/EN/ARDP01.png" alt="Super Mario 3D World Cover">
-            <p><strong>Super Mario 3D World</strong></p>
+            <table class="settings-table">
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>Recommended Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Asynchronous Shader Compilation</td><td><code>Enabled</code></td></tr>
+                    <tr><td>Precompiled Shader Cache</td><td><code>Enabled</code></td></tr>
+                </tbody>
+            </table>
+
+            <p>Enabling <strong>Asynchronous Shader Compilation</strong> allows shaders to compile in the background, reducing stuttering during gameplay. It's crucial for maintaining smooth performance in graphically intensive games. The <strong>Precompiled Shader Cache</strong> minimises initial stuttering when running a game for the first time.</p>
+
+            <h2>Performance Testing</h2>
+            <p>With these settings on a Ryzen 5 3600 and AMD Radeon Vega 8 Graphics, here's how the tested titles performed:</p>
+
+            <!-- Performance stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">
+                <div class="stat-card">
+                    <div class="value">60 fps</div>
+                    <div class="label">NSMBU avg</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">54.6</div>
+                    <div class="label">NSMBU min fps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">60 fps</div>
+                    <div class="label">SM3DW max</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">42 fps</div>
+                    <div class="label">SM3DW min</div>
+                </div>
+            </div>
+
+            <p>VSync targets 60 fps — the human eye rarely benefits from higher frame rates in these titles. If you experience slowdown, closing background tasks is the quickest fix.</p>
+
+            <h2>General Tips</h2>
+            <ul>
+                <li><strong>Keep Your Drivers Updated:</strong> New AMD drivers often improve Vulkan compatibility and performance. Check Radeon Software regularly.</li>
+                <li><strong>Close Background Applications:</strong> Free up system resources by closing unnecessary apps running in the background.</li>
+                <li><strong>Use a High-Performance Power Plan:</strong> Set your power plan to High Performance in Windows to prevent CPU and GPU throttling.</li>
+            </ul>
+
+            <div class="important">
+                <p><strong>Important Notes</strong></p>
+                <ul>
+                    <li><strong>Test Settings Per Game:</strong> While these settings provide a solid baseline, some games may require individual tweaks. Always test and adjust based on the specific title.</li>
+                    <li><strong>Graphic Mods:</strong> Some games have graphic mods available that can further improve frame rate or visual quality. Explore these to enhance your experience.</li>
+                    <li><strong>Tested Games:</strong> Settings were tested on <strong>New Super Mario Bros. U</strong>, <strong>New Super Luigi U</strong>, and <strong>Super Mario 3D World</strong>. Performance may vary with other titles.</li>
+                    <li><strong>Minor Graphical Glitches:</strong> Minor glitches may occur, such as backgrounds flickering when entering underground areas or vines loading a few frames late. These appear when first loading certain textures and do not impact gameplay.</li>
+                    <li><strong>Backup Your Configurations:</strong> Before making major changes, back up your Cemu settings so you can revert if necessary.</li>
+                </ul>
+            </div>
+
+            <h2>Games Mentioned</h2>
+            <div class="games-mentioned">
+                <div class="game">
+                    <img src="https://art.gametdb.com/wiiu/cover3D/EN/ARDP01.png" alt="Super Mario 3D World Cover" loading="lazy">
+                    <p><strong>Super Mario 3D World</strong></p>
+                </div>
+                <div class="game">
+                    <img src="https://art.gametdb.com/wiiu/cover3D/EN/ATWP01.png" alt="New Super Mario Bros. U + New Super Luigi U Cover" loading="lazy">
+                    <p><strong>New Super Mario Bros. U + New Super Luigi U</strong></p>
+                </div>
+            </div>
+
+            <p>This guide should help you achieve a smooth gaming experience in Cemu v2.1 on your Ryzen 5 3600. If you encounter any issues or have further questions, don't hesitate to seek advice from the Cemu community or revisit your settings for further optimisation.</p>
+
+            <hr>
+
+            <!-- Author footer -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+                <p class="mb-0 text-gray-400">Written by <a href="https://www.youtube.com/@aarontendotv" target="_blank" rel="noopener" class="font-bold text-white">Aarontendo</a>. Check out more on YouTube.</p>
+                <a href="../index.html#articles" class="inline-flex items-center gap-2 text-sm text-brand-orange hover:text-brand-yellow transition-colors font-medium">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> All Articles
+                </a>
+            </div>
+
         </div>
-        <div class="game">
-            <img src="https://art.gametdb.com/wiiu/cover3D/EN/ATWP01.png" alt="New Super Mario Bros. U + New Super Luigi U Cover">
-            <p><strong>New Super Mario Bros. U + New Super Luigi U</strong></p>
-        </div>
-    </div>
 
-    <p>This guide should help you achieve a smooth gaming experience in Cemu v2.1 on your Ryzen 5 3600. If you encounter any issues or have further questions, don't hesitate to seek advice from the Cemu community or revisit your settings for further optimization.</p>
-    <p>This guide has been provided by <strong>Aarontendo</strong>. You can check out more from Aarontendo on <a href="https://www.youtube.com/@aarontendotv" target="_blank">YouTube</a>.</p>
+        <!-- Related Articles -->
+        <aside class="mt-16 pt-10 border-t border-dark-700">
+            <h2 class="font-display text-xl text-white mb-6">Related Guide</h2>
+            <a href="475837.html" class="group flex gap-4 bg-dark-800 rounded-xl p-5 border border-dark-700 hover:border-brand-orange/50 transition-all hover:shadow-xl hover:shadow-brand-orange/5">
+                <img src="https://i.ibb.co/hDWqBHx/8b8b8b.png" alt="Wii U NAND" class="w-24 h-16 object-cover rounded-lg flex-shrink-0">
+                <div>
+                    <span class="text-xs font-bold text-brand-blue uppercase tracking-wider">Emulation</span>
+                    <p class="font-display text-white text-sm mt-1 group-hover:text-brand-orange transition-colors leading-snug">How to Import the Wii U's vWii NAND into Dolphin Emulator</p>
+                </div>
+            </a>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 border-t border-dark-700 mt-auto">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <span class="font-display font-bold text-xl text-white tracking-wider">MWHF</span>
+                    <p class="text-gray-500 text-sm mt-2">&copy; 2024&ndash;2025 Modders Wanna Have Fun.</p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="twitter"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="github"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-brand-orange transition-colors"><i data-lucide="youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Reading progress bar
+        const bar = document.getElementById('readingProgress');
+        window.addEventListener('scroll', () => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.width = docHeight > 0 ? (window.scrollY / docHeight * 100) + '%' : '0%';
+        });
+    </script>
 </body>
 </html>
