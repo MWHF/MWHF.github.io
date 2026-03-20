@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="GPU Overclocking for Emulation: MSI Afterburner Guide">
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>GPU Overclocking for Emulation: MSI Afterburner Guide — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Orbitron','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{dark:{950:'#080e1a',900:'#0d1525',800:'#1a2540',700:'#243354',600:'#2e4068'},brand:{orange:'#f39c12',blue:'#3b82f6',cyan:'#22d3ee',yellow:'#fbbf24',red:'#ef4444',green:'#10b981'}}}}}</script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #rp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .ac h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .ac h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .ac h3{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .ac p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .ac a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.ac a:hover{color:#fbbf24}
+        .ac ul,.ac ol{margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}.ac ul{list-style:disc}.ac ol{list-style:decimal}
+        .ac ul li,.ac ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .ac code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .ac strong{color:#fff;font-weight:600}.ac hr{border-color:#243354;margin:2.5rem 0}
+        .warn{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .warn strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .tbl th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .tbl td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}.tbl tr:hover td{background:rgba(36,51,84,0.3)}
+        .cite{color:#94a3b8;font-size:0.85rem;vertical-align:super;font-family:'JetBrains Mono',monospace}
+        .refs{background:#1a2540;border:1px solid #243354;border-radius:8px;padding:1.5rem;margin-top:3rem}
+        .refs h2{font-family:'Orbitron',sans-serif;font-size:1rem;color:#f39c12;margin-bottom:1rem;border:none;padding:0;margin-top:0}
+        .refs ol{margin-left:1rem;color:#94a3b8;font-size:0.88rem;line-height:1.7}.refs ol li{margin-bottom:0.4rem}
+        .refs a{color:#60a5fa;text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<div id="rp"></div>
+<nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-10 h-10 rounded-lg">
+            <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-display tracking-wider">
+            <a href="../index.html" class="hover:text-brand-orange text-gray-400 text-xs">HOME</a>
+            <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+        </div>
+        <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    </div>
+</nav>
+<main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+<div class="ac">
+    <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+        <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-gray-400">GPU-OC</span>
+    </nav>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <span class="bg-pink-500/15 text-pink-400 border border-pink-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">HARDWARE</span>
+        <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+    </div>
+    <h1>GPU Overclocking for Emulation: MSI Afterburner Guide</h1>
+    <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+            <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 16 min read</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2026</span>
+        </div>
+    </div>
+
+    <p>Overclocking a GPU for emulation is a slightly different game than overclocking for rasterized 3D games. Emulators like RPCS3, Xenia, and Cemu put enormous pressure on the shader compiler and texture pipeline — workloads that scale heavily with GPU memory bandwidth and compute throughput.<span class="cite">[1]</span> This guide walks through safe, stable overclocking using MSI Afterburner, with specific guidance for getting the most out of demanding emulation sessions.</p>
+
+    <div class="warn"><strong>Risk Disclosure</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">Overclocking can cause instability, crashes, data corruption, and in rare cases hardware damage. Always increase voltages conservatively. Never leave an overclock running unattended during initial testing. This guide targets safe, moderate overclocks rather than maximum performance.</p></div>
+
+    <h2>Why Emulation Benefits from GPU OC</h2>
+    <p>Traditional games are bottlenecked by CPU geometry throughput at lower resolutions and by fill rate at higher ones. Emulation adds additional overhead: every draw call passes through a translation layer (e.g., the RSX &rarr; Vulkan translation in RPCS3), which increases GPU-side workload unpredictably.<span class="cite">[2]</span> Shader compilation stutters — particularly common in Cemu's first-run shader cache warm-up — are reduced by higher GPU shader throughput. Memory overclocks improve texture streaming bandwidth, which is especially noticeable when upscaling to 4K.</p>
+
+    <h2>Tools Required</h2>
+    <ul>
+        <li><strong>MSI Afterburner</strong> (free) &mdash; the industry-standard GPU overclocking tool<span class="cite">[3]</span></li>
+        <li><strong>RivaTuner Statistics Server (RTSS)</strong> &mdash; bundled with Afterburner; used for on-screen FPS overlay</li>
+        <li><strong>HWiNFO64</strong> (free) &mdash; granular thermal and power monitoring</li>
+        <li><strong>OCCT</strong> or <strong>Unigine Superposition</strong> &mdash; GPU stress testing</li>
+    </ul>
+
+    <h2>Step 1: Establish a Baseline</h2>
+    <p>Before touching any slider, record your stock performance in a demanding emulated game. Run your chosen emulator for 15–20 minutes in a GPU-heavy scene, noting average FPS, 1% lows, GPU core temperature, hotspot temperature, and power draw using HWiNFO64. This gives you a clear before/after comparison.<span class="cite">[4]</span></p>
+
+    <h2>Step 2: Memory Overclock First</h2>
+    <p>GPU memory overclock is almost always the highest-value/lowest-risk modification for emulation workloads. GDDR6/GDDR6X memory is highly binned and most cards have significant headroom above stock clocks.<span class="cite">[5]</span></p>
+    <ol>
+        <li>Open MSI Afterburner and locate the <strong>Memory Clock</strong> slider</li>
+        <li>Increase by <strong>+100 MHz</strong> increments</li>
+        <li>After each increase, run 10 minutes of a texture-heavy emulation scene</li>
+        <li>Watch for artifacts (pixel corruption, flickering polygons) — these indicate you've hit the limit</li>
+        <li>Back off by 50 MHz from the first unstable point and call that your memory OC</li>
+    </ol>
+    <p>Most midrange GPUs can handle +300 to +600 MHz on memory without any voltage change. High-end cards with GDDR6X often have less headroom due to higher stock speeds.</p>
+
+    <h2>Step 3: Core Clock Overclock</h2>
+    <table class="tbl">
+        <thead><tr><th>Card Tier</th><th>Typical Core OC Range</th><th>Emulation Gain</th></tr></thead>
+        <tbody>
+            <tr><td>Budget (RX 6600 / RTX 3060)</td><td>+100 to +150 MHz</td><td>3–8% FPS improvement</td></tr>
+            <tr><td>Midrange (RX 6700 XT / RTX 3070)</td><td>+100 to +175 MHz</td><td>4–10% improvement</td></tr>
+            <tr><td>High-end (RX 7900 GRE / RTX 4070)</td><td>+50 to +150 MHz</td><td>2–6% improvement</td></tr>
+        </tbody>
+    </table>
+    <p>Raise core clock in <strong>+25 MHz</strong> steps, testing stability after each change. Artifacts, driver crashes, or the emulator hanging all indicate instability. Modern GPUs also respond well to <strong>curve-based overclocking</strong> — using Afterburner's voltage/frequency curve editor to push higher clocks only at lower voltages, improving efficiency.<span class="cite">[6]</span></p>
+
+    <h2>Step 4: Power Limit</h2>
+    <p>Many modern GPUs are power-limited at stock settings, meaning they downclock under sustained load to stay within their TDP. Raising the power limit slider (typically available up to +20%) allows the GPU to boost to higher clocks and sustain them longer — often the easiest 5–10% emulation performance improvement available.<span class="cite">[7]</span></p>
+
+    <h2>Step 5: Thermal Management</h2>
+    <p>Higher clocks generate more heat. Keep GPU core temperatures below <strong>83°C</strong> and hotspot (junction) temperatures below <strong>100°C</strong> for long-term reliability. If thermals are a concern:</p>
+    <ul>
+        <li>Set a custom fan curve in Afterburner — a modest increase in fan speed at 70°C usually keeps temperatures in check</li>
+        <li>Improve case airflow: positive pressure (more intake than exhaust) reduces dust and helps GPU exhaust escape</li>
+        <li>Repaste the GPU heatsink if the card is 3+ years old — thermal paste degrades significantly over time<span class="cite">[8]</span></li>
+    </ul>
+
+    <h2>Saving and Applying Profiles</h2>
+    <p>Afterburner supports up to 5 saved profiles. Create one for emulation-specific settings and another for gaming. Enable <strong>Apply overclocking at system startup</strong> only after confirming stability over several days of use.</p>
+
+    <div class="refs">
+        <h2>References</h2>
+        <ol>
+            <li>Linus Media Group, "GPU Overclocking Guide 2025," LinusTechTips.com, 2025.</li>
+            <li>RPCS3 Team, "Performance Notes — GPU Workloads," wiki.rpcs3.net, accessed 2026.</li>
+            <li>MSI, "MSI Afterburner — GPU Overclocking Utility," <a href="https://www.msi.com/Landing/afterburner">msi.com/Landing/afterburner</a>, 2025.</li>
+            <li>HWiNFO Team, "HWiNFO System Information Utility," <a href="https://www.hwinfo.com">hwinfo.com</a>, 2025.</li>
+            <li>TechPowerUp, "GDDR6 Memory Scaling Analysis," techpowerup.com, 2024.</li>
+            <li>der8auer, "Voltage/Frequency Curve Overclocking Explained," YouTube, 2023.</li>
+            <li>Digital Foundry, "GPU Power Limit — The Free Performance Boost," Eurogamer, 2024.</li>
+            <li>Gamers Nexus, "GPU Thermal Paste Degradation Study," gamersnexus.net, 2023.</li>
+        </ol>
+    </div>
+</div>
+</main>
+<footer class="bg-dark-950 border-t border-dark-700">
+    <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3"><img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded"><span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span></div>
+        <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2026 Modders Wanna Have Fun.</p>
+        <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides</a>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    window.addEventListener('scroll',()=>{const e=document.documentElement;document.getElementById('rp').style.width=(e.scrollTop/(e.scrollHeight-e.clientHeight)*100)+'%'});
+</script>
+</body></html>

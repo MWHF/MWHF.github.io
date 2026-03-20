@@ -1,0 +1,45 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b3e"/>
+      <stop offset="100%" style="stop-color:#051228"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="30%" cy="60%" r="50%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="75%" cy="40%" r="40%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow1)"/>
+  <rect width="800" height="450" fill="url(#glow2)"/>
+  <!-- Grid -->
+  <g opacity="0.08" stroke="#60a5fa" stroke-width="1">
+    <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="133" y1="0" x2="133" y2="450"/><line x1="266" y1="0" x2="266" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/><line x1="533" y1="0" x2="533" y2="450"/>
+    <line x1="666" y1="0" x2="666" y2="450"/>
+  </g>
+  <!-- Wave lines -->
+  <path d="M-50 280 Q100 240 200 260 Q300 280 400 250 Q500 220 600 240 Q700 260 850 230" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.5"/>
+  <path d="M-50 310 Q100 270 200 290 Q300 310 400 280 Q500 250 600 270 Q700 290 850 260" fill="none" stroke="#1d4ed8" stroke-width="1.5" opacity="0.4"/>
+  <path d="M-50 340 Q100 300 200 320 Q300 340 400 310 Q500 280 600 300 Q700 320 850 290" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.3"/>
+  <!-- Dolphin silhouette -->
+  <g transform="translate(420, 175)" opacity="0.9">
+    <path d="M-120,0 C-80,-30 -20,-45 40,-35 C90,-25 130,5 150,30 C160,45 155,60 130,55 C110,52 90,35 60,28 C30,21 -10,25 -40,20 C-80,14 -110,-5 -120,0 Z" fill="#60a5fa" opacity="0.7"/>
+    <path d="M130,30 C145,15 160,-5 155,-20 C152,-30 145,-28 140,-15 C135,-5 130,15 130,30 Z" fill="#93c5fd" opacity="0.8"/>
+    <path d="M-120,0 C-130,10 -135,25 -125,30 C-110,35 -90,20 -120,0 Z" fill="#93c5fd" opacity="0.6"/>
+    <circle cx="100" cy="10" r="5" fill="#bfdbfe" opacity="0.9"/>
+  </g>
+  <!-- Wii U logo hint -->
+  <rect x="50" y="50" width="80" height="50" rx="8" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+  <circle cx="90" cy="75" r="12" fill="none" stroke="#60a5fa" stroke-width="2" opacity="0.6"/>
+  <text x="400" y="390" font-family="monospace" font-size="11" fill="#3b82f6" opacity="0.5" text-anchor="middle">DOLPHIN EMULATOR · WII · WII U</text>
+  <text x="400" y="130" font-family="Georgia, serif" font-size="42" font-weight="bold" fill="#e0f2fe" text-anchor="middle" opacity="0.95">vWii NAND</text>
+  <text x="400" y="175" font-family="Georgia, serif" font-size="20" fill="#93c5fd" text-anchor="middle" opacity="0.8">Import Guide</text>
+</svg>

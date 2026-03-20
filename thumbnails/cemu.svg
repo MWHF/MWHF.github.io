@@ -1,0 +1,40 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0d00"/>
+      <stop offset="100%" style="stop-color:#0d0800"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" style="stop-color:#92400e;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <!-- Performance bars -->
+  <g opacity="0.85">
+    <rect x="80" y="320" width="55" height="80" rx="4" fill="#f39c12" opacity="0.9"/>
+    <rect x="155" y="270" width="55" height="130" rx="4" fill="#f59e0b" opacity="0.85"/>
+    <rect x="230" y="210" width="55" height="190" rx="4" fill="#fbbf24" opacity="0.9"/>
+    <rect x="305" y="160" width="55" height="240" rx="4" fill="#f39c12" opacity="0.95"/>
+    <rect x="380" y="130" width="55" height="270" rx="4" fill="#fbbf24" opacity="0.9"/>
+    <rect x="455" y="100" width="55" height="300" rx="4" fill="#f39c12" opacity="0.85"/>
+    <rect x="530" y="115" width="55" height="285" rx="4" fill="#fbbf24" opacity="0.9"/>
+    <rect x="605" y="145" width="55" height="255" rx="4" fill="#f59e0b" opacity="0.85"/>
+  </g>
+  <!-- FPS line -->
+  <polyline points="107,320 182,268 257,208 332,158 407,128 482,98 557,113 632,143" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="8,4" opacity="0.9"/>
+  <!-- Dots on line -->
+  <circle cx="107" cy="320" r="5" fill="#ef4444"/><circle cx="182" cy="268" r="5" fill="#ef4444"/>
+  <circle cx="257" cy="208" r="5" fill="#ef4444"/><circle cx="332" cy="158" r="5" fill="#ef4444"/>
+  <circle cx="407" cy="128" r="5" fill="#ef4444"/><circle cx="482" cy="98" r="5" fill="#ef4444"/>
+  <!-- X-axis -->
+  <line x1="60" y1="400" x2="740" y2="400" stroke="#78350f" stroke-width="1.5" opacity="0.6"/>
+  <line x1="60" y1="80" x2="60" y2="400" stroke="#78350f" stroke-width="1.5" opacity="0.6"/>
+  <!-- Labels -->
+  <text x="107" y="420" font-family="monospace" font-size="9" fill="#92400e" text-anchor="middle">30fps</text>
+  <text x="332" y="420" font-family="monospace" font-size="9" fill="#92400e" text-anchor="middle">45fps</text>
+  <text x="482" y="420" font-family="monospace" font-size="9" fill="#f39c12" text-anchor="middle" font-weight="bold">60fps</text>
+  <text x="400" y="65" font-family="Georgia, serif" font-size="40" font-weight="bold" fill="#fbbf24" text-anchor="middle" opacity="0.95">CEMU v2.1</text>
+  <text x="400" y="98" font-family="monospace" font-size="13" fill="#f39c12" text-anchor="middle" opacity="0.7">Ryzen 5 3600 · Vulkan vs OpenGL</text>
+</svg>

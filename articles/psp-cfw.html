@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="PSP Custom Firmware Guide: PRO CFW &amp; Infinity">
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>PSP Custom Firmware Guide: PRO CFW &amp; Infinity — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Orbitron','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{dark:{950:'#080e1a',900:'#0d1525',800:'#1a2540',700:'#243354',600:'#2e4068'},brand:{orange:'#f39c12',blue:'#3b82f6',cyan:'#22d3ee',yellow:'#fbbf24',red:'#ef4444',green:'#10b981'}}}}}</script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #rp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .ac h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .ac h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .ac h3{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .ac p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .ac a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.ac a:hover{color:#fbbf24}
+        .ac ul,.ac ol{margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}.ac ul{list-style:disc}.ac ol{list-style:decimal}
+        .ac ul li,.ac ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .ac code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .ac strong{color:#fff;font-weight:600}.ac hr{border-color:#243354;margin:2.5rem 0}
+        .warn{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .warn strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .tbl th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .tbl td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}.tbl tr:hover td{background:rgba(36,51,84,0.3)}
+        .cite{color:#94a3b8;font-size:0.85rem;vertical-align:super;font-family:'JetBrains Mono',monospace}
+        .refs{background:#1a2540;border:1px solid #243354;border-radius:8px;padding:1.5rem;margin-top:3rem}
+        .refs h2{font-family:'Orbitron',sans-serif;font-size:1rem;color:#f39c12;margin-bottom:1rem;border:none;padding:0;margin-top:0}
+        .refs ol{margin-left:1rem;color:#94a3b8;font-size:0.88rem;line-height:1.7}.refs ol li{margin-bottom:0.4rem}
+        .refs a{color:#60a5fa;text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<div id="rp"></div>
+<nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-10 h-10 rounded-lg">
+            <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-display tracking-wider">
+            <a href="../index.html" class="hover:text-brand-orange text-gray-400 text-xs">HOME</a>
+            <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+        </div>
+        <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    </div>
+</nav>
+<main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+<div class="ac">
+    <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+        <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-gray-400">PSP-CFW</span>
+    </nav>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <span class="bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">MODDING</span>
+        <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+    </div>
+    <h1>PSP Custom Firmware Guide: PRO CFW &amp; Infinity</h1>
+    <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+            <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 13 min read</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2026</span>
+        </div>
+    </div>
+
+    <p>The PlayStation Portable remains one of the most moddable handhelds ever made. Custom Firmware (CFW) unlocks ISO loading, plugins, homebrew, and region-free play — and on any PSP from the original fat to the 3000, it can be done without any hardware modification.<span class="cite">[1]</span> This guide covers installing <strong>PRO CFW 6.61</strong> (the most stable and widely supported CFW for all PSP models) and optional <strong>Infinity 2.0</strong> for persistent installation on PSP 1000/2000.</p>
+
+    <div class="warn"><strong>Compatible Models</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">PRO CFW supports PSP 1000 (Fat), 2000 (Slim), 3000 (Brite), and PSP Go. PSP Go requires a slightly different approach for ISO loading since it has no UMD drive. PSP Street (E1000) is <strong>not compatible</strong> with most CFW methods.</p></div>
+
+    <h2>Understanding CFW on PSP</h2>
+    <p>Sony's PSP uses a layered firmware system: IPL (Initial Program Loader) &rarr; IDSCORE &rarr; system modules. CFW patches intercept these layers to allow unsigned code execution.<span class="cite">[2]</span> PRO CFW achieves this through a chain of exploits: an initial kernel exploit runs from the XMB or a game save, loading the patched modules into RAM. On unpatched PSP 1000 and 2000 units, Infinity can write a permanent boot patch to flash, so CFW loads automatically without needing an exploit each time.</p>
+
+    <h2>Step 1: Update to Official Firmware 6.61</h2>
+    <p>PRO CFW requires OFW 6.61 as a base. Download the official <code>EBOOT.PBP</code> updater from <a href="https://www.playstation.com/en-us/support/hardware/psp/system-software/">Sony's support page</a> and install it via System Settings &gt; System Update. This is the final official PSP firmware and is safe to install on any model.<span class="cite">[3]</span></p>
+
+    <h2>Step 2: Install PRO CFW 6.61</h2>
+    <ol>
+        <li>Download <strong>PRO-C2 CFW</strong> from <a href="https://github.com/meetpatty/jpcsp/releases">github.com/meetpatty/PROCFW</a> (the community-maintained continuation)</li>
+        <li>Extract the archive and copy the <code>PSP/</code> folder to the root of your Memory Stick</li>
+        <li>On your PSP, navigate to Game &gt; Memory Stick and run <strong>CIPL Flasher</strong> (for supported models) or <strong>FastRecovery</strong></li>
+        <li>The CFW will load immediately — look for the PRO version string in System Settings &gt; System Information</li>
+    </ol>
+
+    <h2>Step 3: Make it Permanent with Infinity 2.0</h2>
+    <p>By default, PRO CFW only persists until the PSP is powered off. Infinity 2.0, developed by TheFloW, patches the PSP's flash memory to auto-load CFW on every boot.<span class="cite">[4]</span></p>
+    <ul>
+        <li>Supported on: PSP 1000 (all), PSP 2000 (TA-085v2 motherboard and earlier)</li>
+        <li><strong>NOT supported</strong> on PSP 3000 or PSP Go — use FastRecovery instead, which re-applies CFW in about 3 seconds</li>
+        <li>Download Infinity from <a href="https://github.com/TheOfficialFloW/Infinity">github.com/TheOfficialFloW/Infinity</a> and run it from the XMB</li>
+    </ul>
+
+    <h2>Step 4: ISO Loading</h2>
+    <p>With PRO CFW active, create a folder called <code>ISO/</code> in the root of your Memory Stick and place your legally ripped UMD images (<code>.iso</code> or <code>.cso</code>) inside. They will appear in the XMB under Game &gt; Memory Stick automatically.<span class="cite">[5]</span></p>
+    <p>CSO (compressed ISO) files can save significant space with minimal quality loss. Use <strong>CisoPlus</strong> or <strong>PSP ISO Compressor</strong> to compress your images — most games achieve 30–50% size reduction.</p>
+
+    <h2>Step 5: Essential Plugins</h2>
+    <p>PSP plugins are <code>.prx</code> files that run in the background and add features system-wide or per-game. Place them in <code>seplugins/</code> on your Memory Stick and register them in <code>game.txt</code>, <code>pops.txt</code>, or <code>vsh.txt</code> as appropriate.<span class="cite">[6]</span></p>
+    <table class="tbl">
+        <thead><tr><th>Plugin</th><th>Function</th><th>Config File</th></tr></thead>
+        <tbody>
+            <tr><td><code>cwCheat.prx</code></td><td>In-game cheats, codes, and speed hacks</td><td>game.txt</td></tr>
+            <tr><td><code>CXMB.prx</code></td><td>Custom XMB themes and CTF theme loading</td><td>vsh.txt</td></tr>
+            <tr><td><code>NoDRM.prx</code></td><td>Removes DRM checks from downloaded content</td><td>game.txt</td></tr>
+            <tr><td><code>prxshot.prx</code></td><td>Screenshot capture with a button combo</td><td>game.txt + vsh.txt</td></tr>
+            <tr><td><code>GameCategories.prx</code></td><td>Organises XMB game list into folders by genre</td><td>vsh.txt</td></tr>
+        </tbody>
+    </table>
+
+    <h2>PPSSPP: The PC Alternative</h2>
+    <p>If you don't have a physical PSP, <strong>PPSSPP</strong> is an excellent open-source PSP emulator for PC, Android, and iOS. It runs virtually the entire PSP library at full speed, with upscaling to 4K, texture filtering, and save state support.<span class="cite">[7]</span> Many players use PPSSPP alongside a real PSP with CFW, syncing saves between the two via cloud storage.</p>
+
+    <div class="refs">
+        <h2>References</h2>
+        <ol>
+            <li>PSP Hacks Guide, "Introduction," <a href="https://psp.hacks.guide">psp.hacks.guide</a>, accessed 2026.</li>
+            <li>Dark_AleX, "PRO CFW Technical Overview," PSP-Hacks community documentation, archived 2023.</li>
+            <li>Sony Interactive Entertainment, "PSP System Software 6.61 Release Notes," playstation.com, 2015.</li>
+            <li>TheFloW, "Infinity 2.0 — Permanent CFW for PSP," <a href="https://github.com/TheOfficialFloW/Infinity">github.com/TheOfficialFloW/Infinity</a>, 2018.</li>
+            <li>PSPunk, "ISO/CSO Loading on PRO CFW," pspunk.com, 2024.</li>
+            <li>PSP Developer Wiki, "seplugins Configuration," pspdev.github.io, accessed 2026.</li>
+            <li>PPSSPP Team, "PPSSPP — Fast and Portable PSP Emulator," <a href="https://www.ppsspp.org">ppsspp.org</a>, accessed 2026.</li>
+        </ol>
+    </div>
+</div>
+</main>
+<footer class="bg-dark-950 border-t border-dark-700">
+    <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3"><img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded"><span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span></div>
+        <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2026 Modders Wanna Have Fun.</p>
+        <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides</a>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    window.addEventListener('scroll',()=>{const e=document.documentElement;document.getElementById('rp').style.width=(e.scrollTop/(e.scrollHeight-e.clientHeight)*100)+'%'});
+</script>
+</body></html>

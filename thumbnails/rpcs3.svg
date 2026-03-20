@@ -1,0 +1,30 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00001a"/><stop offset="100%" style="stop-color:#000d1f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:0.5"/><stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <g stroke="#1e40af" stroke-width="1.5" fill="none" opacity="0.4">
+    <polygon points="400,80 445,105 445,155 400,180 355,155 355,105"/>
+    <polygon points="490,130 535,155 535,205 490,230 445,205 445,155"/>
+    <polygon points="310,130 355,155 355,205 310,230 265,205 265,155"/>
+    <polygon points="400,180 445,205 445,255 400,280 355,255 355,205"/>
+    <polygon points="490,230 535,255 535,305 490,330 445,305 445,255"/>
+    <polygon points="310,230 355,255 355,305 310,330 265,305 265,255"/>
+    <polygon points="400,280 445,305 445,355 400,380 355,355 355,305"/>
+  </g>
+  <polygon points="400,80 445,105 445,155 400,180 355,155 355,105" fill="#1e40af" opacity="0.3"/>
+  <polygon points="400,180 445,205 445,255 400,280 355,255 355,205" fill="#1d4ed8" opacity="0.2"/>
+  <text x="400" y="138" font-family="monospace" font-size="11" fill="#60a5fa" text-anchor="middle" opacity="0.9" font-weight="bold">CELL</text>
+  <text x="490" y="188" font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.7">SPU</text>
+  <text x="310" y="188" font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.7">SPU</text>
+  <text x="490" y="288" font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.6">SPU</text>
+  <text x="310" y="288" font-family="monospace" font-size="9" fill="#3b82f6" text-anchor="middle" opacity="0.6">SPU</text>
+  <text x="400" y="60" font-family="Georgia, serif" font-size="40" font-weight="bold" fill="#93c5fd" text-anchor="middle" opacity="0.95">PS3 Emulation</text>
+  <text x="400" y="415" font-family="monospace" font-size="11" fill="#1e3a5f" text-anchor="middle" opacity="0.6">RPCS3 · CELL PROCESSOR EMULATION</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0a1a"/><stop offset="100%" style="stop-color:#07050d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" style="stop-color:#5b21b6;stop-opacity:0.4"/><stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <!-- Vulkan triangle -->
+  <polygon points="400,80 540,330 260,330" fill="none" stroke="#8b5cf6" stroke-width="3" opacity="0.7"/>
+  <polygon points="400,120 510,310 290,310" fill="#5b21b6" opacity="0.2"/>
+  <!-- Inner triangles -->
+  <polygon points="400,155 480,295 320,295" fill="none" stroke="#7c3aed" stroke-width="2" opacity="0.5"/>
+  <polygon points="400,190 455,280 345,280" fill="#4c1d95" opacity="0.3"/>
+  <text x="400" y="270" font-family="monospace" font-size="22" font-weight="bold" fill="#a78bfa" text-anchor="middle" opacity="0.9">VULKAN</text>
+  <!-- Arrow DX to VK -->
+  <text x="155" y="200" font-family="monospace" font-size="28" font-weight="bold" fill="#6d28d9" text-anchor="middle" opacity="0.7">DX11</text>
+  <line x1="200" y1="215" x2="248" y2="240" stroke="#8b5cf6" stroke-width="2" opacity="0.6"/>
+  <polygon points="248,240 236,228 254,228" fill="#8b5cf6" opacity="0.6"/>
+  <text x="648" y="200" font-family="monospace" font-size="18" font-weight="bold" fill="#7c3aed" text-anchor="middle" opacity="0.7">VK NATIVE</text>
+  <text x="400" y="60" font-family="Georgia, serif" font-size="38" font-weight="bold" fill="#c4b5fd" text-anchor="middle" opacity="0.95">DXVK &amp; Wine</text>
+  <text x="400" y="415" font-family="monospace" font-size="11" fill="#3b0764" text-anchor="middle" opacity="0.6">WINDOWS GAMES ON LINUX · PROTON · LUTRIS</text>
+</svg>

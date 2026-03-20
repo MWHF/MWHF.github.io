@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="RPCS3: Complete PS3 Emulator Setup &amp; Optimization Guide">
+    <meta property="og:description" content="Set up RPCS3 from scratch, compile shaders with SPU LLVM, and get PS3 exclusives running at full speed.">
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>RPCS3 Setup &amp; Optimization Guide — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Orbitron','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{dark:{950:'#080e1a',900:'#0d1525',800:'#1a2540',700:'#243354',600:'#2e4068'},brand:{orange:'#f39c12',blue:'#3b82f6',cyan:'#22d3ee',yellow:'#fbbf24',red:'#ef4444',green:'#10b981'}}}}}</script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #rp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .ac h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .ac h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .ac h3{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .ac p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .ac a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.ac a:hover{color:#fbbf24}
+        .ac ul,.ac ol{margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}.ac ul{list-style:disc}.ac ol{list-style:decimal}
+        .ac ul li,.ac ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .ac code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .ac strong{color:#fff;font-weight:600}.ac hr{border-color:#243354;margin:2.5rem 0}
+        .warn{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .warn strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .tbl th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .tbl td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}.tbl tr:hover td{background:rgba(36,51,84,0.3)}
+        .cite{color:#94a3b8;font-size:0.85rem;vertical-align:super;font-family:'JetBrains Mono',monospace}
+        .refs{background:#1a2540;border:1px solid #243354;border-radius:8px;padding:1.5rem;margin-top:3rem}
+        .refs h2{font-family:'Orbitron',sans-serif;font-size:1rem;color:#f39c12;margin-bottom:1rem;border:none;padding:0;margin-top:0}
+        .refs ol{margin-left:1rem;color:#94a3b8;font-size:0.88rem;line-height:1.7}.refs ol li{margin-bottom:0.4rem}
+        .refs a{color:#60a5fa;text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<div id="rp"></div>
+<nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-10 h-10 rounded-lg">
+            <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-display tracking-wider">
+            <a href="../index.html" class="hover:text-brand-orange text-gray-400 text-xs">HOME</a>
+            <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+        </div>
+        <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    </div>
+</nav>
+
+<main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+<div class="ac">
+    <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+        <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-gray-400">RPCS3</span>
+    </nav>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <span class="bg-blue-500/15 text-blue-400 border border-blue-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">EMULATION</span>
+        <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+    </div>
+
+    <h1>RPCS3: Complete PS3 Emulator Setup &amp; Optimization Guide</h1>
+
+    <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+            <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 14 min read</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2026</span>
+        </div>
+    </div>
+
+    <p>RPCS3 is an open-source PlayStation 3 emulator written in C++ that has achieved remarkable compatibility since its first public release in 2011.<span class="cite">[1]</span> As of 2025, the emulator passes over 70% of its tested library as "Playable" or better, with many titles running at full speed with upscaled resolution and improved framerates beyond what the original hardware offered.<span class="cite">[2]</span> This guide walks you through the complete setup process, from obtaining a PS3 firmware dump to fine-tuning CPU and GPU settings for optimal performance.</p>
+
+    <div class="warn"><strong>Legal Notice</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">You must own a PlayStation 3 console to legally use RPCS3. Firmware must be obtained directly from Sony's servers (legally free) or dumped from your own console. Game files must be ripped from discs you own using a jailbroken PS3 with multiMAN or similar software. Downloading games you don't own is illegal.</p></div>
+
+    <h2>Understanding the PS3 Architecture</h2>
+    <p>Before diving into settings, it helps to understand what RPCS3 is actually doing. The PS3's Cell Broadband Engine consists of one PowerPC-based Processing Element (PPE) and eight Synergistic Processing Elements (SPEs) — essentially a heterogeneous multi-core design unlike any mainstream CPU.<span class="cite">[3]</span> RPCS3 emulates this by mapping Cell instructions to your x86-64 CPU using a JIT (Just-In-Time) recompiler. High-IPC, high-frequency CPUs (like modern Intel and AMD desktop chips) therefore perform dramatically better than the same core count on a power-limited platform.</p>
+
+    <h2>Step 1: Obtain and Install Firmware</h2>
+    <p>Unlike most emulators, RPCS3 can download the PS3 firmware legally and for free directly from Sony's update servers. In RPCS3, go to <strong>File &gt; Install Firmware</strong> and follow the prompt to download <code>PS3UPDAT.PUP</code> from Sony's official URL.<span class="cite">[4]</span> This file contains the PlayStation 3's operating system and is required for the emulator to boot games.</p>
+    <p>Once installed, RPCS3 will display the firmware version in the lower-left status bar. Aim for firmware <strong>4.91</strong> or newer for maximum game compatibility.</p>
+
+    <h2>Step 2: CPU Configuration</h2>
+    <p>The CPU tab is the most critical section for performance. RPCS3 supports three SPU recompiler backends, each with different performance characteristics.<span class="cite">[5]</span></p>
+    <table class="tbl">
+        <thead><tr><th>Setting</th><th>Recommended</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>PPU Decoder</td><td><code>Recompiler (LLVM)</code></td><td>Dramatically faster than interpreter modes; always use this</td></tr>
+            <tr><td>SPU Decoder</td><td><code>Recompiler (LLVM)</code></td><td>Best performance; ASMJIT slightly faster in some titles</td></tr>
+            <tr><td>SPU Block Size</td><td><code>Mega</code></td><td>Reduces recompilation overhead; increases startup time on first run</td></tr>
+            <tr><td>Preferred SPU Threads</td><td><code>0 (Auto)</code></td><td>Lets RPCS3 allocate SPUs based on game needs</td></tr>
+            <tr><td>Enable TSX</td><td>Off (unless Intel CPU)</td><td>Hardware TSX improves performance on supported Intel CPUs</td></tr>
+            <tr><td>SPU Cache</td><td>On</td><td>Caches compiled SPU modules; essential for fast subsequent launches</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Step 3: GPU Configuration</h2>
+    <p>RPCS3 supports Vulkan, OpenGL, and a null renderer. Vulkan is overwhelmingly preferred for performance, as it more closely maps to how the PS3's RSX GPU works at a low level.<span class="cite">[6]</span></p>
+    <table class="tbl">
+        <thead><tr><th>Setting</th><th>Recommended</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>Renderer</td><td><code>Vulkan</code></td><td>OpenGL as fallback only; Vulkan is 30–60% faster in most titles</td></tr>
+            <tr><td>Resolution</td><td><code>1920x1080</code> or <code>2560x1440</code></td><td>PS3 native is 720p; upscaling dramatically improves image quality</td></tr>
+            <tr><td>Framelimit</td><td><code>Auto</code></td><td>Matches game's native target; Off can enable uncapped FPS</td></tr>
+            <tr><td>Anisotropic Filter</td><td><code>16x</code></td><td>Huge texture quality improvement at minimal cost</td></tr>
+            <tr><td>MSAA</td><td><code>4x</code></td><td>Anti-aliasing; reduce to 2x or Disabled if performance-limited</td></tr>
+            <tr><td>Write Color Buffers</td><td>On for needed titles</td><td>Fixes visual glitches in specific games; leave Off by default</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Step 4: Installing Games</h2>
+    <p>RPCS3 can load games in several formats: disc images (<code>.iso</code>), installed game folders (PKG+RAP), and digital purchases decrypted from a jailbroken PS3. The recommended workflow for disc-based games is to rip the disc to an ISO using your jailbroken PS3's disc manager, then install it via <strong>File &gt; Install Packages/Raps/Edats</strong> or by extracting the ISO contents to RPCS3's <code>dev_hdd0/disc/</code> folder.</p>
+
+    <div class="tip"><strong>Game Compatibility List</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">Before spending time configuring a game, check the official <a href="https://rpcs3.net/compatibility">RPCS3 Compatibility List</a>. Each entry shows its status (Playable, Ingame, Intro, Nothing), average FPS, and community-recommended settings. Many entries include configuration presets that you can import directly.<span class="cite">[7]</span></p></div>
+
+    <h2>Step 5: Per-Game Configuration</h2>
+    <p>RPCS3 supports per-game configuration overrides, which is essential since different games may need different settings. Right-click any game in the library and choose <strong>Create Custom Configuration</strong>. For example:</p>
+    <ul>
+        <li><strong>Demon's Souls:</strong> Enable <code>Accurate xfloat</code> and <code>Accurate RSX reservation access</code> to prevent crashes in specific zones<span class="cite">[8]</span></li>
+        <li><strong>God of War III:</strong> Enable <code>Write Color Buffers</code> to fix missing geometry in cutscenes</li>
+        <li><strong>Persona 5:</strong> Runs near-perfectly with default settings at 1440p; no special config needed</li>
+        <li><strong>Gran Turismo 5:</strong> Requires <code>Accurate SPU DMA</code> to avoid physics glitches</li>
+    </ul>
+
+    <h2>Performance Expectations</h2>
+    <p>On a modern CPU (Ryzen 7 5800X or Intel Core i7-12700K and above), the majority of PS3 games run at full speed or better in RPCS3.<span class="cite">[9]</span> Some particularly demanding titles — such as <em>Gran Turismo 6</em> or <em>The Last of Us</em> — still require high-end hardware to maintain stable framerates, though both are listed as Playable as of this writing. Older budget CPUs with weaker single-threaded performance will struggle, since the PPE recompiler is heavily single-threaded.</p>
+
+    <div class="refs">
+        <h2>References</h2>
+        <ol>
+            <li>RPCS3 Team, "RPCS3 — Open-Source PlayStation 3 Emulator," <a href="https://rpcs3.net/about">rpcs3.net/about</a>, accessed 2026.</li>
+            <li>RPCS3 Compatibility Database, <a href="https://rpcs3.net/compatibility">rpcs3.net/compatibility</a>, accessed March 2026.</li>
+            <li>IBM/Sony/Toshiba, "Cell Broadband Engine Architecture," Version 1.02, IBM developerWorks, 2007.</li>
+            <li>Sony Interactive Entertainment, "PS3 System Update Download," <a href="https://www.playstation.com/en-us/support/hardware/ps3/system-software/">playstation.com</a>, 2025.</li>
+            <li>RPCS3 Wiki, "Configuration Guide — CPU Settings," <a href="https://wiki.rpcs3.net/index.php?title=Help:Configuration">wiki.rpcs3.net</a>, accessed 2026.</li>
+            <li>kd-11, "Vulkan Renderer Progress Report," RPCS3 Blog, rpcs3.net/blog, 2022.</li>
+            <li>RPCS3 Compatibility List, Game Entries, <a href="https://rpcs3.net/compatibility">rpcs3.net/compatibility</a>.</li>
+            <li>RPCS3 Wiki, "Demon's Souls — Game Notes," wiki.rpcs3.net, accessed 2026.</li>
+            <li>Digital Foundry, "RPCS3: The PS3 Emulator That Runs Games Better Than Original Hardware," Eurogamer, 2022.</li>
+        </ol>
+    </div>
+</div>
+</main>
+
+<footer class="bg-dark-950 border-t border-dark-700">
+    <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3"><img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded"><span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span></div>
+        <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2026 Modders Wanna Have Fun.</p>
+        <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides</a>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    window.addEventListener('scroll',()=>{const e=document.documentElement;document.getElementById('rp').style.width=(e.scrollTop/(e.scrollHeight-e.clientHeight)*100)+'%'});
+</script>
+</body></html>

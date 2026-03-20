@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Xenia Xbox 360 Emulator: Setup, Config &amp; Game Fixes">
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>Xenia Xbox 360 Emulator: Setup, Config &amp; Game Fixes — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Orbitron','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{dark:{950:'#080e1a',900:'#0d1525',800:'#1a2540',700:'#243354',600:'#2e4068'},brand:{orange:'#f39c12',blue:'#3b82f6',cyan:'#22d3ee',yellow:'#fbbf24',red:'#ef4444',green:'#10b981'}}}}}</script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #rp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .ac h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .ac h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .ac h3{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .ac p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .ac a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.ac a:hover{color:#fbbf24}
+        .ac ul,.ac ol{margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}.ac ul{list-style:disc}.ac ol{list-style:decimal}
+        .ac ul li,.ac ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .ac code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .ac strong{color:#fff;font-weight:600}.ac hr{border-color:#243354;margin:2.5rem 0}
+        .warn{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .warn strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .tbl th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .tbl td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}.tbl tr:hover td{background:rgba(36,51,84,0.3)}
+        .cite{color:#94a3b8;font-size:0.85rem;vertical-align:super;font-family:'JetBrains Mono',monospace}
+        .refs{background:#1a2540;border:1px solid #243354;border-radius:8px;padding:1.5rem;margin-top:3rem}
+        .refs h2{font-family:'Orbitron',sans-serif;font-size:1rem;color:#f39c12;margin-bottom:1rem;border:none;padding:0;margin-top:0}
+        .refs ol{margin-left:1rem;color:#94a3b8;font-size:0.88rem;line-height:1.7}.refs ol li{margin-bottom:0.4rem}
+        .refs a{color:#60a5fa;text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<div id="rp"></div>
+<nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-10 h-10 rounded-lg">
+            <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-display tracking-wider">
+            <a href="../index.html" class="hover:text-brand-orange text-gray-400 text-xs">HOME</a>
+            <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+        </div>
+        <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    </div>
+</nav>
+<main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+<div class="ac">
+    <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+        <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-gray-400">XENIA</span>
+    </nav>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <span class="bg-blue-500/15 text-blue-400 border border-blue-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">EMULATION</span>
+        <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+    </div>
+    <h1>Xenia Xbox 360 Emulator: Setup, Config &amp; Game Fixes</h1>
+    <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+            <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 11 min read</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2026</span>
+        </div>
+    </div>
+
+    <p>Xenia is the leading open-source Xbox 360 emulator, capable of running a large portion of the Xbox 360's library on modern Windows PCs.<span class="cite">[1]</span> The project maintains two distinct builds: a stable release and <em>Xenia Canary</em>, which is a fork focused on actively merging fixes and enhancements ahead of the main branch.<span class="cite">[2]</span> For most users, Xenia Canary is the version to install, as it incorporates significantly more game-specific patches and renderer improvements.</p>
+
+    <div class="warn"><strong>Legal Notice</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">You must own an Xbox 360 console and legally purchased games to use Xenia. Game ISOs must be ripped from your own discs using a compatible DVD drive and Iso2God or similar tools, or transferred from a jailbroken console. Xbox Live Arcade (XBLA) titles require decryption keys specific to your hardware.</p></div>
+
+    <h2>Xenia vs Xenia Canary</h2>
+    <p>The official Xenia release (from xenia.jp) receives infrequent updates and lags behind in compatibility. Xenia Canary, maintained at <a href="https://github.com/xenia-canary/xenia-canary">github.com/xenia-canary/xenia-canary</a>, merges PRs from the community much faster and has noticeably better compatibility for popular titles like Halo 3, Red Dead Redemption, and Skate.<span class="cite">[3]</span> Always prefer Canary unless a specific game regresses.</p>
+
+    <h2>Step 1: Installation</h2>
+    <p>Download the latest Xenia Canary build from the GitHub releases page. Extract the archive to a permanent folder. Xenia requires no installer — simply run <code>xenia_canary.exe</code>. On first launch it will create a <code>xenia.config.toml</code> in the same directory, which is where all settings are stored.</p>
+
+    <div class="tip"><strong>Windows Requirements</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">Xenia requires Windows 10 version 1903 or newer, and a GPU that supports <strong>Vulkan 1.1</strong> or <strong>Direct3D 12</strong> with a Shader Model 6.0 feature level. Ensure your GPU drivers are current — outdated drivers are the #1 cause of Xenia crashes.<span class="cite">[4]</span></p></div>
+
+    <h2>Step 2: GPU Backend Selection</h2>
+    <p>Xenia supports two graphics backends: <strong>Vulkan</strong> and <strong>Direct3D 12</strong>. The performance and compatibility of each varies per title.<span class="cite">[5]</span></p>
+    <table class="tbl">
+        <thead><tr><th>Backend</th><th>Pros</th><th>Cons</th></tr></thead>
+        <tbody>
+            <tr><td><code>Vulkan</code></td><td>Better average compatibility, cross-vendor</td><td>Some titles have rendering glitches</td></tr>
+            <tr><td><code>Direct3D 12</code></td><td>Better for some Xbox-specific rendering paths</td><td>Windows-only, some shader compiler issues</td></tr>
+        </tbody>
+    </table>
+    <p>Set the GPU backend in <code>xenia.config.toml</code> by editing <code>gpu = "vulkan"</code> or <code>gpu = "d3d12"</code>. You can also pass it as a flag: <code>xenia_canary.exe --gpu=vulkan</code>.</p>
+
+    <h2>Step 3: Key Configuration Options</h2>
+    <table class="tbl">
+        <thead><tr><th>Option (toml key)</th><th>Recommended</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>vsync</td><td><code>true</code></td><td>Prevents tearing; disable if you want uncapped FPS</td></tr>
+            <tr><td>internal_display_resolution</td><td><code>1280x720</code> or <code>1920x1080</code></td><td>1080p requires a capable GPU; some games break above native</td></tr>
+            <tr><td>render_target_path_d3d12</td><td><code>rov</code></td><td>Rasterizer-Ordered Views; better compatibility than <code>rtv</code> on D3D12</td></tr>
+            <tr><td>kernel_pix_dump</td><td><code>false</code></td><td>Leave off unless debugging</td></tr>
+            <tr><td>allow_game_relative_paths</td><td><code>true</code></td><td>Enables content discovery for multi-disc titles</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Step 4: Game Patches</h2>
+    <p>Xenia Canary has a built-in patching system. Game-specific patches are stored as TOML files in the <code>patches/</code> folder. These patches fix crashes, improve framerates, and unlock resolution options in specific titles.<span class="cite">[6]</span> To enable them, open Xenia's <strong>File &gt; Open Content Folder</strong>, navigate to <code>patches/</code>, and check the patch files for your game's title ID.</p>
+    <p>Popular patches include 60fps unlocks for games like <em>Forza Horizon</em>, crash fixes for <em>Halo 3</em>, and improved rendering in <em>GTA IV</em>.</p>
+
+    <h2>Game-Specific Notes</h2>
+    <h3>Red Dead Redemption</h3>
+    <p>RDR is one of the most-requested titles on Xenia. As of early 2026, it reaches the main menu and in-game state with Vulkan backend, though some rendering artifacts remain.<span class="cite">[7]</span> Enable the RDR patch in the patches folder to minimize crashes.</p>
+    <h3>Halo 3</h3>
+    <p>Runs well on Canary with the D3D12 backend. Multiplayer is not functional (requires Xbox Live authentication), but the campaign is playable end-to-end on most hardware.</p>
+    <h3>Xbox Live Arcade titles</h3>
+    <p>XBLA games stored as <code>.xex</code> files from a jailbroken system can be loaded directly. You may need to provide the console's CPU key to decrypt some titles — this must be extracted from your own hardware.</p>
+
+    <div class="refs">
+        <h2>References</h2>
+        <ol>
+            <li>Xenia Project, "Xenia — Xbox 360 Research Emulator," <a href="https://xenia.jp">xenia.jp</a>, accessed 2026.</li>
+            <li>Xenia Canary Repository, <a href="https://github.com/xenia-canary/xenia-canary">github.com/xenia-canary/xenia-canary</a>, accessed 2026.</li>
+            <li>Xenia Canary Releases, GitHub, accessed March 2026.</li>
+            <li>Xenia Wiki, "Getting Started," <a href="https://github.com/xenia-project/xenia/wiki">github.com/xenia-project/xenia/wiki</a>, 2025.</li>
+            <li>Xenia Wiki, "GPU Backends Comparison," github.com/xenia-project, 2025.</li>
+            <li>Xenia Canary, "patches/" directory, GitHub repository, 2026.</li>
+            <li>Xenia Compatibility Database, <a href="https://github.com/xenia-canary/game-compatibility">github.com/xenia-canary/game-compatibility</a>, 2026.</li>
+        </ol>
+    </div>
+</div>
+</main>
+<footer class="bg-dark-950 border-t border-dark-700">
+    <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3"><img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded"><span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span></div>
+        <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2026 Modders Wanna Have Fun.</p>
+        <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides</a>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    window.addEventListener('scroll',()=>{const e=document.documentElement;document.getElementById('rp').style.width=(e.scrollTop/(e.scrollHeight-e.clientHeight)*100)+'%'});
+</script>
+</body></html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Wii Homebrew Channel: Full Softmod Guide (2025)">
+    <meta property="og:type" content="article"><meta property="og:site_name" content="Modders Wanna Have Fun">
+    <title>Wii Homebrew Channel: Full Softmod Guide (2025) — MWHF</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MWHF/MWHF.github.io/main/fav.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Orbitron','sans-serif'],mono:['JetBrains Mono','monospace']},colors:{dark:{950:'#080e1a',900:'#0d1525',800:'#1a2540',700:'#243354',600:'#2e4068'},brand:{orange:'#f39c12',blue:'#3b82f6',cyan:'#22d3ee',yellow:'#fbbf24',red:'#ef4444',green:'#10b981'}}}}}</script>
+    <style>
+        body{background-color:#080e1a;color:#e2e8f0}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#080e1a}::-webkit-scrollbar-thumb{background:#243354;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#f39c12}
+        #rp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f39c12,#fbbf24);width:0%;z-index:100;transition:width 0.1s linear}
+        .ac h1{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;border-bottom:1px solid #243354;padding-bottom:1.5rem;margin-bottom:2rem;margin-top:1rem;text-align:center;line-height:1.2}
+        .ac h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;color:#f39c12;border-left:4px solid #f39c12;padding-left:1rem;margin-top:3rem;margin-bottom:1.5rem}
+        .ac h3{font-family:'Orbitron',sans-serif;font-size:1.05rem;color:#60a5fa;margin-top:2rem;margin-bottom:1rem;font-weight:700}
+        .ac p{color:#cbd5e1;font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem}
+        .ac a{color:#3b82f6;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.ac a:hover{color:#fbbf24}
+        .ac ul,.ac ol{margin-left:1.5rem;color:#cbd5e1;margin-bottom:1.5rem}.ac ul{list-style:disc}.ac ol{list-style:decimal}
+        .ac ul li,.ac ol li{margin-bottom:0.5rem;line-height:1.7;font-size:1.05rem}
+        .ac code{background:#1a2540;color:#f39c12;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.9rem;border:1px solid #243354}
+        .ac strong{color:#fff;font-weight:600}.ac hr{border-color:#243354;margin:2.5rem 0}
+        .warn{background:#1a2540;border-left:4px solid #ef4444;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .warn strong{color:#ef4444;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tip{background:#1a2540;border-left:4px solid #10b981;padding:1.25rem 1.5rem;border-radius:0 8px 8px 0;margin:2rem 0}
+        .tip strong{color:#10b981;display:block;margin-bottom:0.5rem;font-family:'Orbitron',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em}
+        .tbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;border:1px solid #243354;margin:2rem 0}
+        .tbl th{background:#243354;color:#f39c12;font-family:'Orbitron',sans-serif;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.75rem 1rem;text-align:left}
+        .tbl td{border-top:1px solid #243354;padding:0.7rem 1rem;color:#cbd5e1;font-size:0.9rem}.tbl tr:hover td{background:rgba(36,51,84,0.3)}
+        .cite{color:#94a3b8;font-size:0.85rem;vertical-align:super;font-family:'JetBrains Mono',monospace}
+        .refs{background:#1a2540;border:1px solid #243354;border-radius:8px;padding:1.5rem;margin-top:3rem}
+        .refs h2{font-family:'Orbitron',sans-serif;font-size:1rem;color:#f39c12;margin-bottom:1rem;border:none;padding:0;margin-top:0}
+        .refs ol{margin-left:1rem;color:#94a3b8;font-size:0.88rem;line-height:1.7}.refs ol li{margin-bottom:0.4rem}
+        .refs a{color:#60a5fa;text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<div id="rp"></div>
+<nav class="sticky top-0 z-50 bg-dark-950/95 backdrop-blur-md border-b border-dark-700">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-10 h-10 rounded-lg">
+            <span class="font-display font-bold text-lg tracking-widest text-white">MWHF</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-display tracking-wider">
+            <a href="../index.html" class="hover:text-brand-orange text-gray-400 text-xs">HOME</a>
+            <a href="../index.html#articles" class="text-brand-orange text-xs">GUIDES</a>
+        </div>
+        <a href="../index.html" class="md:hidden text-gray-400 hover:text-white flex items-center gap-1 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    </div>
+</nav>
+<main class="flex-grow container mx-auto px-6 py-12 max-w-4xl">
+<div class="ac">
+    <nav class="mb-8 text-xs text-gray-500 flex items-center gap-2 font-mono">
+        <a href="../index.html" class="hover:text-brand-orange no-underline">Home</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="../index.html#articles" class="hover:text-brand-orange no-underline">Guides</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <span class="text-gray-400">WII-HOMEBREW</span>
+    </nav>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <span class="bg-purple-500/15 text-purple-400 border border-purple-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">MODDING</span>
+        <span class="bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold font-display tracking-wider px-3 py-1 rounded-full">NEW</span>
+    </div>
+    <h1>Wii Homebrew Channel: Full Softmod Guide (2025)</h1>
+    <div class="flex items-center justify-between mb-12 pb-6 border-b border-dark-700">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/0XS5H1F/9e010e34-62e7-477b-98b0-c28b4757102c.png" alt="Aarontendo" class="w-10 h-10 rounded-full border-2 border-dark-700">
+            <div><div class="text-sm font-semibold text-white">Aarontendo</div><div class="text-xs text-gray-500">MWHF Author</div></div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500 font-mono">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 18 min read</span>
+            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> 2026</span>
+        </div>
+    </div>
+
+    <p>Softmodding a Wii allows you to install the Homebrew Channel, run unsigned software, and unlock capabilities far beyond what Nintendo intended — all without touching the hardware or voiding any physical seals.<span class="cite">[1]</span> This guide covers the most reliable 2025 methods for every Wii and Wii mini variant, and walks through installing Priiloader, cIOS (custom IOS), and essential homebrew apps.</p>
+
+    <div class="warn"><strong>Important</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">This guide is for softmodding only — no soldering or hardware modification required. That said, incorrect NAND flashing can brick a Wii permanently. Always install Priiloader and create a NAND backup before doing anything risky. This guide assumes a stock, unmodified Wii running system menu 4.3.</p></div>
+
+    <h2>Which Exploit to Use?</h2>
+    <p>The correct entry-point exploit depends on your Wii's system menu version and what you have available.<span class="cite">[2]</span></p>
+    <table class="tbl">
+        <thead><tr><th>Exploit</th><th>Requirement</th><th>Best For</th></tr></thead>
+        <tbody>
+            <tr><td><code>str2hax</code></td><td>Internet connection, no game or SD card needed</td><td>Any Wii with Wi-Fi; easiest method</td></tr>
+            <tr><td><code>LetterBomb</code></td><td>SD card, Wii with Wii Message Board enabled</td><td>Most Wiis on firmware 4.3</td></tr>
+            <tr><td><code>FlashHax</code></td><td>SD card, Internet Channel (free on shop)</td><td>Wiis that can still access the shop</td></tr>
+            <tr><td><code>BlueBomb</code></td><td>Linux computer with Bluetooth</td><td>Wii mini; no SD slot available</td></tr>
+        </tbody>
+    </table>
+    <p>For a standard Wii on firmware 4.3 with Wi-Fi, <strong>str2hax</strong> is the simplest: navigate to System Settings &gt; Internet &gt; Connection Settings, choose your connection, and change the DNS server to <code>18.188.135.9</code>. Select "Perform Connection Test" and the exploit should load.<span class="cite">[3]</span></p>
+
+    <h2>Step 1: Run the HackMii Installer</h2>
+    <p>All of the above exploits ultimately boot the <strong>HackMii Installer</strong>, created by fail0verflow and bushing. This installer scans your Wii, reports the system menu version, and lets you install the Homebrew Channel and BootMii.<span class="cite">[4]</span></p>
+    <ol>
+        <li>Download <code>boot.elf</code> from <a href="https://bootmii.org/download/">bootmii.org/download</a></li>
+        <li>Place it in the root of a FAT32-formatted SD card</li>
+        <li>Trigger your chosen exploit — the HackMii installer will appear</li>
+        <li>Install the <strong>Homebrew Channel</strong> first, then BootMii if offered as <em>boot2</em></li>
+    </ol>
+
+    <h2>Step 2: Install Priiloader</h2>
+    <p>Priiloader is a boot-time replacement for the Wii System Menu loader that runs before the system menu and can recover a bricked console in many scenarios.<span class="cite">[5]</span> It also allows you to apply permanent system menu patches like region-free disc loading and disabling online update checks.</p>
+    <ol>
+        <li>Download Priiloader from the <a href="https://github.com/DacoTaco/priiloader">GitHub releases</a></li>
+        <li>Place the <code>apps/priiloader/</code> folder on your SD card</li>
+        <li>Launch it from the Homebrew Channel and follow on-screen instructions</li>
+        <li>After installation, hold RESET while powering on to enter Priiloader</li>
+    </ol>
+
+    <h2>Step 3: Install cIOS (d2x)</h2>
+    <p>Custom IOS (cIOS) modules are patched versions of Nintendo's IOS that allow unsigned code and USB storage access. The standard cIOS package is <strong>d2x cIOS installer</strong>.<span class="cite">[6]</span></p>
+    <ul>
+        <li>Install <strong>d2x v10 beta53</strong> as IOS249 (base IOS 56), IOS250 (base IOS 57), and IOS251 (base IOS 58)</li>
+        <li>These are required by USB loaders like USB Loader GX and WiiFlow</li>
+        <li>Use the <strong>WAD Manager</strong> homebrew app to install additional system WADs if needed</li>
+    </ul>
+
+    <h2>Step 4: Essential Homebrew Apps</h2>
+    <p>With the Homebrew Channel installed, these are the must-have applications to add to your SD card's <code>apps/</code> folder:<span class="cite">[7]</span></p>
+    <ul>
+        <li><strong>USB Loader GX:</strong> Load disc backups from a USB hard drive; supports covers, ratings, and per-game settings</li>
+        <li><strong>Dolphin Emulator (Wii port):</strong> Run GameCube games directly on the Wii with enhanced compatibility</li>
+        <li><strong>Nintendont:</strong> GameCube disc backup loader with rumble, widescreen, and memory card emulation</li>
+        <li><strong>WiiXplorer:</strong> File manager with FTP support for transferring files over Wi-Fi</li>
+        <li><strong>CleanRip:</strong> Rip your own Wii/GameCube discs to an SD card or USB drive legally</li>
+        <li><strong>BSOD/SysCheck:</strong> Generates a full IOS report; useful when troubleshooting</li>
+    </ul>
+
+    <h2>Step 5: NAND Backup</h2>
+    <p>Before doing anything further — especially before installing WADs — create a NAND backup. BootMii installed as boot2 can do this automatically; otherwise use <strong>BootMii IOS</strong> mode via the Homebrew Channel. A full NAND backup is your safety net if anything goes wrong.<span class="cite">[8]</span></p>
+
+    <div class="tip"><strong>Wii Mini Note</strong>
+    <p style="margin:0;color:#cbd5e1;font-size:0.95rem">The Wii mini lacks an SD card slot, Wi-Fi, and cannot install BootMii. Softmodding it requires the BlueBomb exploit (Bluetooth exploit) from a Linux machine, and is significantly more limited. Many homebrew apps simply won't work on the mini.</p></div>
+
+    <div class="refs">
+        <h2>References</h2>
+        <ol>
+            <li>Wii Hacks Guide, "Introduction to Wii Modding," <a href="https://wii.hacks.guide">wii.hacks.guide</a>, accessed 2026.</li>
+            <li>Wii Hacks Guide, "Picking Your Exploit," wii.hacks.guide/get-started, accessed 2026.</li>
+            <li>Crediar, "str2hax — Wii System Menu Exploit," <a href="https://str2hax.hacks.guide">str2hax.hacks.guide</a>, 2024.</li>
+            <li>fail0verflow &amp; bushing, "HackMii Installer," <a href="https://bootmii.org/download">bootmii.org/download</a>, 2023.</li>
+            <li>DacoTaco, "Priiloader," <a href="https://github.com/DacoTaco/priiloader">github.com/DacoTaco/priiloader</a>, 2025.</li>
+            <li>d2x cIOS Installer Team, "d2x cIOS v10 beta53," GitHub, 2024.</li>
+            <li>WiiBrew Wiki, "List of Homebrew Applications," <a href="https://wiibrew.org/wiki/List_of_homebrew_applications">wiibrew.org</a>, accessed 2026.</li>
+            <li>BootMii Team, "NAND Backup Guide," bootmii.org, accessed 2026.</li>
+        </ol>
+    </div>
+</div>
+</main>
+<footer class="bg-dark-950 border-t border-dark-700">
+    <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3"><img src="https://avatars.githubusercontent.com/u/180107173?s=1024&v=4" alt="MWHF" class="w-7 h-7 rounded"><span class="font-display font-bold text-sm text-white tracking-widest">MWHF</span></div>
+        <p class="text-gray-600 text-xs font-mono">&copy; 2024&ndash;2026 Modders Wanna Have Fun.</p>
+        <a href="../index.html" class="text-gray-500 hover:text-brand-orange text-sm flex items-center gap-1 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to all guides</a>
+    </div>
+</footer>
+<script>
+    lucide.createIcons();
+    window.addEventListener('scroll',()=>{const e=document.documentElement;document.getElementById('rp').style.width=(e.scrollTop/(e.scrollHeight-e.clientHeight)*100)+'%'});
+</script>
+</body></html>
